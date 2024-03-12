@@ -31,6 +31,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private val icons = mutableMapOf<Int, Drawable?>()
     private val paint = Paint()
 
+    private val colorDark = Color.rgb(135,166,103)
+    private val colorLight = Color.rgb(254,255,220)
+
     init {
         loadIcons()
     }
@@ -64,36 +67,32 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawPieces(canvas: Canvas) {
-        drawPieceAt(canvas, 0, 0, R.drawable.rb)
-        drawPieceAt(canvas, 1, 0, R.drawable.nb)
-        drawPieceAt(canvas, 2, 0, R.drawable.bb)
-        drawPieceAt(canvas, 3, 0, R.drawable.qb)
-        drawPieceAt(canvas, 4, 0, R.drawable.kb)
-        drawPieceAt(canvas, 5, 0, R.drawable.bb)
-        drawPieceAt(canvas, 6, 0, R.drawable.nb)
-        drawPieceAt(canvas, 7, 0, R.drawable.rb)
-        drawPieceAt(canvas, 0, 1, R.drawable.pb)
-        drawPieceAt(canvas, 1, 1, R.drawable.pb)
-        drawPieceAt(canvas, 2, 1, R.drawable.pb)
-        drawPieceAt(canvas, 3, 1, R.drawable.pb)
-        drawPieceAt(canvas, 4, 1, R.drawable.pb)
-        drawPieceAt(canvas, 5, 1, R.drawable.pb)
-        drawPieceAt(canvas, 6, 1, R.drawable.pb)
-        drawPieceAt(canvas, 7, 1, R.drawable.pb)
+        val chessModel = ChessModel()
+        chessModel.reset()
+
+        for (row in 0..7) {
+            for (col in 0..7) {
+                chessModel.pieceAt(col, row)?.let { drawPieceAt(canvas, col, row, it.iconID) }
+            }
+        }
     }
 
     private fun drawBoard(canvas: Canvas) {
-        for (i in 0..7) {
-            for (j in 0..7) {
-                paint.color = if ((i + j) % 2 == 0) Color.LTGRAY else Color.DKGRAY
-                canvas.drawRect(
-                    originX + i * cellSide,
-                    originY + j * cellSide,
-                    originX + (i + 1) * cellSide,
-                    originY + (j + 1) * cellSide,
-                    paint
-                )
+        for (col in 0..7) {
+            for (row in 0..7) {
+                drawCellAt(canvas, col, row, (col + row) % 2 == 0)
             }
         }
+    }
+
+    private fun drawCellAt(canvas: Canvas, col: Int, row: Int, isLight: Boolean) {
+        paint.color = if (isLight) colorLight else colorDark
+        canvas.drawRect(
+            originX + col * cellSide,
+            originY + row * cellSide,
+            originX + (col + 1) * cellSide,
+            originY + (row + 1) * cellSide,
+            paint
+        )
     }
 }
