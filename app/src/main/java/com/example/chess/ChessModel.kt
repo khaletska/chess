@@ -7,73 +7,62 @@ class ChessModel {
         reset()
     }
 
-    fun reset() {
+    fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int) {
+        val movingPiece = pieceAt(fromCol, fromRow) ?: return
+
+        pieceAt(toCol, toRow)?.let {
+            if (it.player == movingPiece.player) return
+            piecesBox.remove(it)
+        }
+
+        movingPiece.col = toCol
+        movingPiece.row = toRow
+
+    }
+
+    private fun reset() {
         piecesBox.removeAll(piecesBox)
         for (i in 0..1) {
             piecesBox.add(
                 ChessPiece(
-                    0 + i * 7,
-                    0,
-                    ChessPlayer.BLACK,
-                    ChessRank.ROOK,
-                    R.drawable.rb
+                    0 + i * 7, 0, ChessPlayer.WHITE, ChessRank.ROOK, R.drawable.rw
                 )
             )
             piecesBox.add(
                 ChessPiece(
-                    0 + i * 7,
-                    7,
-                    ChessPlayer.WHITE,
-                    ChessRank.ROOK,
-                    R.drawable.rw
+                    0 + i * 7, 7, ChessPlayer.BLACK, ChessRank.ROOK, R.drawable.rb
                 )
             )
             piecesBox.add(
                 ChessPiece(
-                    1 + i * 5,
-                    0,
-                    ChessPlayer.BLACK,
-                    ChessRank.KNIGHT,
-                    R.drawable.nb
+                    1 + i * 5, 0, ChessPlayer.WHITE, ChessRank.KNIGHT, R.drawable.nw
                 )
             )
             piecesBox.add(
                 ChessPiece(
-                    1 + i * 5,
-                    7,
-                    ChessPlayer.WHITE,
-                    ChessRank.KNIGHT,
-                    R.drawable.nw
+                    1 + i * 5, 7, ChessPlayer.BLACK, ChessRank.KNIGHT, R.drawable.nb
                 )
             )
             piecesBox.add(
                 ChessPiece(
-                    2 + i * 3,
-                    0,
-                    ChessPlayer.BLACK,
-                    ChessRank.BISHOP,
-                    R.drawable.bb
+                    2 + i * 3, 0, ChessPlayer.WHITE, ChessRank.BISHOP, R.drawable.bw
                 )
             )
             piecesBox.add(
                 ChessPiece(
-                    2 + i * 3,
-                    7,
-                    ChessPlayer.WHITE,
-                    ChessRank.BISHOP,
-                    R.drawable.bw
+                    2 + i * 3, 7, ChessPlayer.BLACK, ChessRank.BISHOP, R.drawable.bb
                 )
             )
         }
 
         for (i in 0..7) {
-            piecesBox.add(ChessPiece(i, 1, ChessPlayer.BLACK, ChessRank.PAWN, R.drawable.pb))
-            piecesBox.add(ChessPiece(i, 6, ChessPlayer.WHITE, ChessRank.PAWN, R.drawable.pw))
+            piecesBox.add(ChessPiece(i, 1, ChessPlayer.WHITE, ChessRank.PAWN, R.drawable.pw))
+            piecesBox.add(ChessPiece(i, 6, ChessPlayer.BLACK, ChessRank.PAWN, R.drawable.pb))
         }
-        piecesBox.add(ChessPiece(3, 0, ChessPlayer.BLACK, ChessRank.QUEEN, R.drawable.qb))
-        piecesBox.add(ChessPiece(3, 7, ChessPlayer.WHITE, ChessRank.QUEEN, R.drawable.qw))
-        piecesBox.add(ChessPiece(4, 0, ChessPlayer.BLACK, ChessRank.KING, R.drawable.kb))
-        piecesBox.add(ChessPiece(4, 7, ChessPlayer.WHITE, ChessRank.KING, R.drawable.kw))
+        piecesBox.add(ChessPiece(3, 0, ChessPlayer.WHITE, ChessRank.QUEEN, R.drawable.qw))
+        piecesBox.add(ChessPiece(3, 7, ChessPlayer.BLACK, ChessRank.QUEEN, R.drawable.qb))
+        piecesBox.add(ChessPiece(4, 0, ChessPlayer.WHITE, ChessRank.KING, R.drawable.kw))
+        piecesBox.add(ChessPiece(4, 7, ChessPlayer.BLACK, ChessRank.KING, R.drawable.kb))
     }
 
     fun pieceAt(col: Int, row: Int): ChessPiece? {

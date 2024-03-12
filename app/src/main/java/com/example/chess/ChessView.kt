@@ -7,13 +7,16 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
+import kotlin.math.min
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    private val originX = 20f
-    private val originY = 200f
-    private val cellSide: Float = 130f
+    private val scaleFactor = .9f
+    private var cellSide: Float = 0.0f
+    private var originX: Float = 0.0f
+    private var originY: Float = 0.0f
     private val iconsIDs = setOf(
         R.drawable.rw,
         R.drawable.nw,
@@ -31,8 +34,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private val icons = mutableMapOf<Int, Drawable?>()
     private val paint = Paint()
 
-    private val colorDark = Color.rgb(135,166,103)
-    private val colorLight = Color.rgb(254,255,220)
+    private val colorDark = Color.rgb(135, 166, 103)
+    private val colorLight = Color.rgb(254, 255, 220)
+
+    var chessDelegate: ChessDelegate? = null
+
+    private var fromCol: Int = -1
+    private var fromRow: Int = -1
 
     init {
         loadIcons()
@@ -41,9 +49,34 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        val boardSide = min(width, height) * scaleFactor
+        cellSide = boardSide / 8f
+        originX = (width - boardSide) / 2f
+        originY = (height - boardSide) / 2f
         drawBoard(canvas)
-
         drawPieces(canvas)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        event ?: return false
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    fromCol = ((event.x - originX) / cellSide).toInt()
+                    fromRow = 7 - ((event.y - originY) / cellSide).toInt()
+                    print("down")
+                }
+                MotionEvent.ACTION_MOVE -> {
+
+                }
+                MotionEvent.ACTION_UP -> {
+                    val col = ((event.x - originX) / cellSide).toInt()
+                    val row = 7 - ((event.y - originY) / cellSide).toInt()
+                    print("up")
+                    chessDelegate?.movePiece(fromCol, fromRow, col, row)
+                }
+            }
+        return true
     }
 
     private fun loadIcons() {
@@ -54,39 +87,35 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     private fun drawPieceAt(canvas: Canvas, col: Int, row: Int, pieceID: Int) {
         val qw: Drawable? = icons[pieceID]
-        print(qw)
         qw?.let {
             it.setBounds(
                 (originX + col * cellSide).toInt(),
-                (originY + row * cellSide).toInt(),
+                (originY + (7 - row) * cellSide).toInt(),
                 (originX + (col + 1) * cellSide).toInt(),
-                (originY + (row + 1) * cellSide).toInt()
+                (originY + ((7 - row) + 1) * cellSide).toInt()
             )
             it.draw(canvas)
         }
     }
 
     private fun drawPieces(canvas: Canvas) {
-        val chessModel = ChessModel()
-        chessModel.reset()
-
         for (row in 0..7) {
             for (col in 0..7) {
-                chessModel.pieceAt(col, row)?.let { drawPieceAt(canvas, col, row, it.iconID) }
+                chessDelegate?.pieceAt(col, row)?.let { drawPieceAt(canvas, col, row, it.iconID) }
             }
         }
     }
 
     private fun drawBoard(canvas: Canvas) {
-        for (col in 0..7) {
-            for (row in 0..7) {
-                drawCellAt(canvas, col, row, (col + row) % 2 == 0)
+        for (row in 0..7) {
+            for (col in 0..7) {
+                drawCellAt(canvas, col, row, (col + row) % 2 == 1)
             }
         }
     }
 
-    private fun drawCellAt(canvas: Canvas, col: Int, row: Int, isLight: Boolean) {
-        paint.color = if (isLight) colorLight else colorDark
+    private fun drawCellAt(canvas: Canvas, col: Int, row: Int, isDark: Boolean) {
+        paint.color = if (isDark) colorDark else colorLight
         canvas.drawRect(
             originX + col * cellSide,
             originY + row * cellSide,
