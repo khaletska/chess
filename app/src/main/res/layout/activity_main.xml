@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.chess.ChessView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/chessView">
+    android:gravity="center"
+    android:orientation="vertical">
 
+    <com.example.chess.ChessView
+        android:id="@+id/chessView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-</com.example.chess.ChessView>
+    <Button
+        android:id="@+id/resetBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset" />
+</LinearLayout>

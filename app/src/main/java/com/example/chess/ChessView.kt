@@ -34,6 +34,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private val icons = mutableMapOf<Int, Drawable?>()
     private val paint = Paint()
 
+    private var movingPieceIcon: Drawable? = null
+
+    private var movingPiece: ChessPiece? = null
     private val colorDark = Color.rgb(135, 166, 103)
     private val colorLight = Color.rgb(254, 255, 220)
 
@@ -42,8 +45,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var fromCol: Int = -1
     private var fromRow: Int = -1
 
+    private var movingPieceX = -1f
+    private var movingPieceY = -1f
+
     init {
         loadIcons()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val smaller = min(widthMeasureSpec, heightMeasureSpec)
+        setMeasuredDimension(smaller, smaller)
     }
 
     @SuppressLint("DrawAllocation")
@@ -60,22 +72,32 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    fromCol = ((event.x - originX) / cellSide).toInt()
-                    fromRow = 7 - ((event.y - originY) / cellSide).toInt()
-                    print("down")
-                }
-                MotionEvent.ACTION_MOVE -> {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                fromCol = ((event.x - originX) / cellSide).toInt()
+                fromRow = 7 - ((event.y - originY) / cellSide).toInt()
 
-                }
-                MotionEvent.ACTION_UP -> {
-                    val col = ((event.x - originX) / cellSide).toInt()
-                    val row = 7 - ((event.y - originY) / cellSide).toInt()
-                    print("up")
-                    chessDelegate?.movePiece(fromCol, fromRow, col, row)
+                chessDelegate?.pieceAt(fromCol, fromRow)?.let {
+                    movingPiece = it
+                    movingPieceIcon = icons[it.iconID]
                 }
             }
+
+            MotionEvent.ACTION_MOVE -> {
+                movingPieceX = event.x
+                movingPieceY = event.y
+                invalidate()
+            }
+
+            MotionEvent.ACTION_UP -> {
+                val col = ((event.x - originX) / cellSide).toInt()
+                val row = 7 - ((event.y - originY) / cellSide).toInt()
+                chessDelegate?.movePiece(fromCol, fromRow, col, row)
+                movingPiece = null
+                movingPieceIcon = null
+                invalidate()
+            }
+        }
         return true
     }
 
@@ -101,9 +123,43 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun drawPieces(canvas: Canvas) {
         for (row in 0..7) {
             for (col in 0..7) {
-                chessDelegate?.pieceAt(col, row)?.let { drawPieceAt(canvas, col, row, it.iconID) }
+                if (row != fromRow || col != fromCol) {
+                    chessDelegate?.pieceAt(col, row)
+                        ?.let { drawPieceAt(canvas, col, row, it.iconID) }
+                }
+
+                chessDelegate?.pieceAt(col, row)
+                    ?.let {
+                        if (it != movingPiece) {
+                            drawPieceAt(canvas, col, row, it.iconID)
+                        }
+                    }
             }
         }
+
+
+        movingPieceIcon?.let {
+            it.setBounds(
+                (movingPieceX - cellSide / 2).toInt(),
+                (movingPieceY - cellSide / 2).toInt(),
+                (movingPieceX + cellSide / 2).toInt(),
+                (movingPieceY + cellSide / 2).toInt()
+            )
+            it.draw(canvas)
+        }
+
+//        chessDelegate?.pieceAt(fromCol, fromRow)?.let { piece ->
+//            val qw: Drawable? = icons[piece.iconID]
+//            qw?.let {
+//                it.setBounds(
+//                    (movingPieceX - cellSide / 2).toInt(),
+//                    (movingPieceY - cellSide / 2).toInt(),
+//                    (movingPieceX + cellSide / 2).toInt(),
+//                    (movingPieceY + cellSide / 2).toInt()
+//                )
+//                it.draw(canvas)
+//            }
+//        }
     }
 
     private fun drawBoard(canvas: Canvas) {
