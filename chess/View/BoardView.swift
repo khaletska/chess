@@ -7,22 +7,19 @@
 
 import UIKit
 
-class BoardView: UIView {
+final class BoardView: UIView {
 
     private static let boardSideCellLength = 8
     private static let boardCellCount = BoardView.boardSideCellLength * BoardView.boardSideCellLength
 
     var gridCalculator = Grid(layout: .dimensions(rowCount: BoardView.boardSideCellLength, columnCount: BoardView.boardSideCellLength))
 
-    let boardModel = BoardModel()
-
-    func generateBoard() {
+    func drawLayout(board: [[ChessPiece?]]) {
         self.gridCalculator.cellCount = BoardView.boardCellCount
         self.gridCalculator.frame = self.bounds
-        self.boardModel.generateBoard()
 
-        for (row, _) in self.boardModel.board.enumerated() {
-            for (col, _) in self.boardModel.board[row].enumerated() {
+        for row in 0..<board.count {
+            for col in 0..<board[row].count {
                 guard let frame = self.gridCalculator[row, col] else {
                     continue
                 }
@@ -30,11 +27,12 @@ class BoardView: UIView {
                 let cell = UIView(frame: frame)
                 if (row + col) % 2 == 0 {
                     cell.backgroundColor = UIColor.systemGray2
-                } else {
+                } 
+                else {
                     cell.backgroundColor = UIColor.black
                 }
 
-                if let image = self.boardModel.board[row][col]?.getImage() {
+                if let image = board[row][col]?.getImage() {
                     let pieceImageView = UIImageView(image: image)
                     pieceImageView.contentMode = .scaleAspectFit
                     cell.addSubview(pieceImageView)
@@ -57,7 +55,7 @@ class BoardView: UIView {
 private extension ChessPiece {
 
     func getImage() -> UIImage? {
-        let imageName: String = color.rawValue + type.rawValue
+        let imageName: String = color.rawValue + pieceType.rawValue
         return UIImage(named: imageName)
     }
 

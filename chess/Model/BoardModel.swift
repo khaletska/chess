@@ -11,37 +11,37 @@ final class BoardModel {
 
     var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
-    func generateBoard() {
+    func createNewGameBoard() {
         for col in 0...7 {
-            board[1][col] = ChessPiece(type: .pawn, color: .black)
-            board[6][col] = ChessPiece(type: .pawn, color: .white)
+            self.board[1][col] = ChessPiece(pieceType: .pawn, color: .black)
+            self.board[6][col] = ChessPiece(pieceType: .pawn, color: .white)
         }
 
         // rooks
-        board[0][0] = ChessPiece(type: .rook, color: .black)
-        board[0][7] = ChessPiece(type: .rook, color: .black)
-        board[7][0] = ChessPiece(type: .rook, color: .white)
-        board[7][7] = ChessPiece(type: .rook, color: .white)
+        self.board[0][0] = ChessPiece(pieceType: .rook, color: .black)
+        self.board[0][7] = ChessPiece(pieceType: .rook, color: .black)
+        self.board[7][0] = ChessPiece(pieceType: .rook, color: .white)
+        self.board[7][7] = ChessPiece(pieceType: .rook, color: .white)
 
         // knights
-        board[0][1] = ChessPiece(type: .knight, color: .black)
-        board[0][6] = ChessPiece(type: .knight, color: .black)
-        board[7][1] = ChessPiece(type: .knight, color: .white)
-        board[7][6] = ChessPiece(type: .knight, color: .white)
+        self.board[0][1] = ChessPiece(pieceType: .knight, color: .black)
+        self.board[0][6] = ChessPiece(pieceType: .knight, color: .black)
+        self.board[7][1] = ChessPiece(pieceType: .knight, color: .white)
+        self.board[7][6] = ChessPiece(pieceType: .knight, color: .white)
 
         // bishops
-        board[0][2] = ChessPiece(type: .bishop, color: .black)
-        board[0][5] = ChessPiece(type: .bishop, color: .black)
-        board[7][2] = ChessPiece(type: .bishop, color: .white)
-        board[7][5] = ChessPiece(type: .bishop, color: .white)
+        self.board[0][2] = ChessPiece(pieceType: .bishop, color: .black)
+        self.board[0][5] = ChessPiece(pieceType: .bishop, color: .black)
+        self.board[7][2] = ChessPiece(pieceType: .bishop, color: .white)
+        self.board[7][5] = ChessPiece(pieceType: .bishop, color: .white)
 
         // queens
-        board[0][3] = ChessPiece(type: .queen, color: .black)
-        board[7][3] = ChessPiece(type: .queen, color: .white)
+        self.board[0][3] = ChessPiece(pieceType: .queen, color: .black)
+        self.board[7][3] = ChessPiece(pieceType: .queen, color: .white)
 
         // kings
-        board[0][4] = ChessPiece(type: .king, color: .black)
-        board[7][4] = ChessPiece(type: .king, color: .white)
+        self.board[0][4] = ChessPiece(pieceType: .king, color: .black)
+        self.board[7][4] = ChessPiece(pieceType: .king, color: .white)
     }
 
 }

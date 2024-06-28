@@ -7,14 +7,16 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
     @IBOutlet weak var boardView: BoardView!
+    private let chessGame: BoardModel = BoardModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        boardView.generateBoard()
+        self.chessGame.createNewGameBoard()
+        self.boardView.drawLayout(board: self.chessGame.board)
     }
 
 

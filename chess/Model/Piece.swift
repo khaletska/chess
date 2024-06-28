@@ -22,7 +22,7 @@ enum PieceColor: String {
 }
 
 struct ChessPiece {
-    let type: PieceType
+    let pieceType: PieceType
     let color: PieceColor
 }
 
