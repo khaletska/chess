@@ -9,7 +9,7 @@ import Foundation
 
 struct ChessPiece {
 
-    enum PieceKind: String {
+    enum Kind: String {
         case pawn = "P"
         case rook = "R"
         case knight = "N"
@@ -18,13 +18,12 @@ struct ChessPiece {
         case king = "K"
     }
 
-    enum PieceColor: String {
+    enum Color: String {
         case white = "W"
         case black = "B"
     }
 
-    let kind: PieceKind
-    let color: PieceColor
+    let kind: Kind
+    let color: Color
 
 }
-
