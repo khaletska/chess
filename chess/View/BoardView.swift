@@ -55,7 +55,7 @@ final class BoardView: UIView {
 private extension ChessPiece {
 
     func getImage() -> UIImage? {
-        let imageName: String = color.rawValue + pieceType.rawValue
+        let imageName: String = color.rawValue + kind.rawValue
         return UIImage(named: imageName)
     }
 
