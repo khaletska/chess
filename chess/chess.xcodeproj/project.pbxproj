@@ -7,35 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		049FA2862C2EC13300BA3D97 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049FA2852C2EC13300BA3D97 /* BoardView.swift */; };
-		049FA2882C2EC1AC00BA3D97 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049FA2872C2EC1AC00BA3D97 /* Grid.swift */; };
-		049FA28D2C2EC9ED00BA3D97 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049FA28C2C2EC9ED00BA3D97 /* BoardModel.swift */; };
-		049FA28F2C2ECA3300BA3D97 /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049FA28E2C2ECA3300BA3D97 /* Piece.swift */; };
-		04E5192A2C256040001B2641 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E519292C256040001B2641 /* AppDelegate.swift */; };
-		04E5192C2C256040001B2641 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E5192B2C256040001B2641 /* SceneDelegate.swift */; };
-		04E5192E2C256040001B2641 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E5192D2C256040001B2641 /* ViewController.swift */; };
-		04E519312C256040001B2641 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 04E519302C256040001B2641 /* Base */; };
-		04E519332C256041001B2641 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04E519322C256041001B2641 /* Assets.xcassets */; };
-		04E519362C256041001B2641 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 04E519352C256041001B2641 /* Base */; };
+		0440A71D2C3BDE7E006227D1 /* chessApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0440A71C2C3BDE7E006227D1 /* chessApp.swift */; };
+		0440A71F2C3BDE7E006227D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0440A71E2C3BDE7E006227D1 /* ContentView.swift */; };
+		0440A7212C3BDE7F006227D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0440A7202C3BDE7F006227D1 /* Assets.xcassets */; };
+		0440A7242C3BDE7F006227D1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0440A7232C3BDE7F006227D1 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		049FA2852C2EC13300BA3D97 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
-		049FA2872C2EC1AC00BA3D97 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
-		049FA28C2C2EC9ED00BA3D97 /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
-		049FA28E2C2ECA3300BA3D97 /* Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
-		04E519262C256040001B2641 /* chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		04E519292C256040001B2641 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		04E5192B2C256040001B2641 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		04E5192D2C256040001B2641 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		04E519302C256040001B2641 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		04E519322C256041001B2641 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		04E519352C256041001B2641 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		04E519372C256041001B2641 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0440A7192C3BDE7E006227D1 /* chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0440A71C2C3BDE7E006227D1 /* chessApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chessApp.swift; sourceTree = "<group>"; };
+		0440A71E2C3BDE7E006227D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0440A7202C3BDE7F006227D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0440A7232C3BDE7F006227D1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		04E519232C256040001B2641 /* Frameworks */ = {
+		0440A7162C3BDE7E006227D1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,74 +32,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		049FA2832C2EBE7E00BA3D97 /* SupportingFiles */ = {
+		0440A7102C3BDE7E006227D1 = {
 			isa = PBXGroup;
 			children = (
-				04E519292C256040001B2641 /* AppDelegate.swift */,
-				04E5192B2C256040001B2641 /* SceneDelegate.swift */,
-				04E519342C256041001B2641 /* LaunchScreen.storyboard */,
-			);
-			path = SupportingFiles;
-			sourceTree = "<group>";
-		};
-		049FA2842C2EC10600BA3D97 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				049FA2852C2EC13300BA3D97 /* BoardView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		049FA28B2C2EC9D800BA3D97 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				049FA28C2C2EC9ED00BA3D97 /* BoardModel.swift */,
-				049FA28E2C2ECA3300BA3D97 /* Piece.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		04E5191D2C256040001B2641 = {
-			isa = PBXGroup;
-			children = (
-				04E519282C256040001B2641 /* chess */,
-				049FA2832C2EBE7E00BA3D97 /* SupportingFiles */,
-				04E519272C256040001B2641 /* Products */,
+				0440A71B2C3BDE7E006227D1 /* chess */,
+				0440A71A2C3BDE7E006227D1 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		04E519272C256040001B2641 /* Products */ = {
+		0440A71A2C3BDE7E006227D1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				04E519262C256040001B2641 /* chess.app */,
+				0440A7192C3BDE7E006227D1 /* chess.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		04E519282C256040001B2641 /* chess */ = {
+		0440A71B2C3BDE7E006227D1 /* chess */ = {
 			isa = PBXGroup;
 			children = (
-				049FA28B2C2EC9D800BA3D97 /* Model */,
-				049FA2842C2EC10600BA3D97 /* View */,
-				04E5192D2C256040001B2641 /* ViewController.swift */,
-				049FA2872C2EC1AC00BA3D97 /* Grid.swift */,
-				04E5192F2C256040001B2641 /* Main.storyboard */,
-				04E519322C256041001B2641 /* Assets.xcassets */,
-				04E519372C256041001B2641 /* Info.plist */,
+				0440A71C2C3BDE7E006227D1 /* chessApp.swift */,
+				0440A71E2C3BDE7E006227D1 /* ContentView.swift */,
+				0440A7202C3BDE7F006227D1 /* Assets.xcassets */,
+				0440A7222C3BDE7F006227D1 /* Preview Content */,
 			);
 			path = chess;
+			sourceTree = "<group>";
+		};
+		0440A7222C3BDE7F006227D1 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				0440A7232C3BDE7F006227D1 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		04E519252C256040001B2641 /* chess */ = {
+		0440A7182C3BDE7E006227D1 /* chess */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04E5193A2C256041001B2641 /* Build configuration list for PBXNativeTarget "chess" */;
+			buildConfigurationList = 0440A7272C3BDE7F006227D1 /* Build configuration list for PBXNativeTarget "chess" */;
 			buildPhases = (
-				04E519222C256040001B2641 /* Sources */,
-				04E519232C256040001B2641 /* Frameworks */,
-				04E519242C256040001B2641 /* Resources */,
+				0440A7152C3BDE7E006227D1 /* Sources */,
+				0440A7162C3BDE7E006227D1 /* Frameworks */,
+				0440A7172C3BDE7E006227D1 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -120,25 +84,25 @@
 			);
 			name = chess;
 			productName = chess;
-			productReference = 04E519262C256040001B2641 /* chess.app */;
+			productReference = 0440A7192C3BDE7E006227D1 /* chess.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		04E5191E2C256040001B2641 /* Project object */ = {
+		0440A7112C3BDE7E006227D1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
-					04E519252C256040001B2641 = {
+					0440A7182C3BDE7E006227D1 = {
 						CreatedOnToolsVersion = 15.4;
 					};
 				};
 			};
-			buildConfigurationList = 04E519212C256040001B2641 /* Build configuration list for PBXProject "chess" */;
+			buildConfigurationList = 0440A7142C3BDE7E006227D1 /* Build configuration list for PBXProject "chess" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -146,67 +110,42 @@
 				en,
 				Base,
 			);
-			mainGroup = 04E5191D2C256040001B2641;
-			productRefGroup = 04E519272C256040001B2641 /* Products */;
+			mainGroup = 0440A7102C3BDE7E006227D1;
+			productRefGroup = 0440A71A2C3BDE7E006227D1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				04E519252C256040001B2641 /* chess */,
+				0440A7182C3BDE7E006227D1 /* chess */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		04E519242C256040001B2641 /* Resources */ = {
+		0440A7172C3BDE7E006227D1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04E519332C256041001B2641 /* Assets.xcassets in Resources */,
-				04E519362C256041001B2641 /* Base in Resources */,
-				04E519312C256040001B2641 /* Base in Resources */,
+				0440A7242C3BDE7F006227D1 /* Preview Assets.xcassets in Resources */,
+				0440A7212C3BDE7F006227D1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		04E519222C256040001B2641 /* Sources */ = {
+		0440A7152C3BDE7E006227D1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				049FA28D2C2EC9ED00BA3D97 /* BoardModel.swift in Sources */,
-				049FA28F2C2ECA3300BA3D97 /* Piece.swift in Sources */,
-				04E5192E2C256040001B2641 /* ViewController.swift in Sources */,
-				049FA2862C2EC13300BA3D97 /* BoardView.swift in Sources */,
-				04E5192A2C256040001B2641 /* AppDelegate.swift in Sources */,
-				049FA2882C2EC1AC00BA3D97 /* Grid.swift in Sources */,
-				04E5192C2C256040001B2641 /* SceneDelegate.swift in Sources */,
+				0440A71F2C3BDE7E006227D1 /* ContentView.swift in Sources */,
+				0440A71D2C3BDE7E006227D1 /* chessApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		04E5192F2C256040001B2641 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04E519302C256040001B2641 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		04E519342C256041001B2641 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04E519352C256041001B2641 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		04E519382C256041001B2641 /* Debug */ = {
+		0440A7252C3BDE7F006227D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -269,7 +208,7 @@
 			};
 			name = Debug;
 		};
-		04E519392C256041001B2641 /* Release */ = {
+		0440A7262C3BDE7F006227D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -325,19 +264,20 @@
 			};
 			name = Release;
 		};
-		04E5193B2C256041001B2641 /* Debug */ = {
+		0440A7282C3BDE7F006227D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"chess/Preview Content\"";
 				DEVELOPMENT_TEAM = 6AY526Q85U;
+				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = chess/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -353,19 +293,20 @@
 			};
 			name = Debug;
 		};
-		04E5193C2C256041001B2641 /* Release */ = {
+		0440A7292C3BDE7F006227D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"chess/Preview Content\"";
 				DEVELOPMENT_TEAM = 6AY526Q85U;
+				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = chess/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -384,25 +325,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		04E519212C256040001B2641 /* Build configuration list for PBXProject "chess" */ = {
+		0440A7142C3BDE7E006227D1 /* Build configuration list for PBXProject "chess" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				04E519382C256041001B2641 /* Debug */,
-				04E519392C256041001B2641 /* Release */,
+				0440A7252C3BDE7F006227D1 /* Debug */,
+				0440A7262C3BDE7F006227D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04E5193A2C256041001B2641 /* Build configuration list for PBXNativeTarget "chess" */ = {
+		0440A7272C3BDE7F006227D1 /* Build configuration list for PBXNativeTarget "chess" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				04E5193B2C256041001B2641 /* Debug */,
-				04E5193C2C256041001B2641 /* Release */,
+				0440A7282C3BDE7F006227D1 /* Debug */,
+				0440A7292C3BDE7F006227D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 04E5191E2C256040001B2641 /* Project object */;
+	rootObject = 0440A7112C3BDE7E006227D1 /* Project object */;
 }
