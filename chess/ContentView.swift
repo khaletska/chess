@@ -23,7 +23,7 @@ struct ContentView: View {
 struct ChessBoardView: View {
 
     @ObservedObject var chessModel: ChessModel
-    let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 8)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 8)
 
     var body: some View {
         GeometryReader { geometry in
@@ -39,10 +39,12 @@ struct ChessBoardView: View {
                             .background(Rectangle().fill(getColorForSquare(row: row, col: col)))
                             .frame(width: cellSize)
                             .aspectRatio(1, contentMode: .fit)
-                        ChessPieceView(piece: self.chessModel.board[row][col], imageSize: cellSize * 0.9)
-                            .onTapGesture {
-                                self.chessModel.selectPieceAt(row: row, col: col)
-                            }
+                        if let piece = self.chessModel.board[row][col] {
+                            ChessPieceView(piece: piece, imageSize: cellSize * 0.9)
+                                .onTapGesture {
+                                    self.chessModel.selectPieceAt(row: row, col: col)
+                                }
+                        }
                     }
                 }
             }
@@ -51,7 +53,7 @@ struct ChessBoardView: View {
         }
     }
 
-    func getBorderColorForSquare(row: Int, col: Int) -> Color {
+    private func getBorderColorForSquare(row: Int, col: Int) -> Color {
         guard let selectedPieceAddress = self.chessModel.selectedPieceAddress else {
             return .clear
         }
@@ -59,23 +61,26 @@ struct ChessBoardView: View {
         return selectedPieceAddress == (row, col) ? .orange : .clear
     }
 
-    func getColorForSquare(row: Int, col: Int) -> Color {
-        return (row + col).isMultiple(of: 2) ? .white : .black
+    private func getColorForSquare(row: Int, col: Int) -> Color {
+        (row + col).isMultiple(of: 2) ? .white : .black
     }
 
 }
 
 struct ChessPieceView: View {
 
-    let piece: ChessPiece?
-    let imageSize: CGFloat
+    private let piece: ChessPiece
+    private let imageSize: CGFloat
+
+    init(piece: ChessPiece, imageSize: CGFloat) {
+        self.piece = piece
+        self.imageSize = imageSize
+    }
 
     var body: some View {
-        if let piece = self.piece {
-            Image(piece.color.rawValue + piece.kind.rawValue)
-                .resizable()
-                .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
-        }
+        Image(piece.color.rawValue + piece.kind.rawValue)
+            .resizable()
+            .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
     }
 
 }
