@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct chessApp: App {
+    @StateObject var chessModel = ChessModel()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(chessModel: chessModel)
         }
     }
 }
