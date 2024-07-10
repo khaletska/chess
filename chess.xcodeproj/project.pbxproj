@@ -7,22 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0440A71D2C3BDE7E006227D1 /* chessApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0440A71C2C3BDE7E006227D1 /* chessApp.swift */; };
-		0440A71F2C3BDE7E006227D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0440A71E2C3BDE7E006227D1 /* ContentView.swift */; };
-		0440A7212C3BDE7F006227D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0440A7202C3BDE7F006227D1 /* Assets.xcassets */; };
-		0440A7242C3BDE7F006227D1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0440A7232C3BDE7F006227D1 /* Preview Assets.xcassets */; };
+		04A82C982C3D74E00073F6D1 /* chessApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A82C972C3D74E00073F6D1 /* chessApp.swift */; };
+		04A82C9A2C3D74E00073F6D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A82C992C3D74E00073F6D1 /* ContentView.swift */; };
+		04A82C9C2C3D74E10073F6D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A82C9B2C3D74E10073F6D1 /* Assets.xcassets */; };
+		04A82C9F2C3D74E10073F6D1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A82C9E2C3D74E10073F6D1 /* Preview Assets.xcassets */; };
+		04A82CA72C3D75700073F6D1 /* ChessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A82CA52C3D75700073F6D1 /* ChessModel.swift */; };
+		04A82CA82C3D75700073F6D1 /* ChessPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A82CA62C3D75700073F6D1 /* ChessPiece.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0440A7192C3BDE7E006227D1 /* chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0440A71C2C3BDE7E006227D1 /* chessApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chessApp.swift; sourceTree = "<group>"; };
-		0440A71E2C3BDE7E006227D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		0440A7202C3BDE7F006227D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0440A7232C3BDE7F006227D1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		04A82C942C3D74E00073F6D1 /* chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04A82C972C3D74E00073F6D1 /* chessApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chessApp.swift; sourceTree = "<group>"; };
+		04A82C992C3D74E00073F6D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		04A82C9B2C3D74E10073F6D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04A82C9E2C3D74E10073F6D1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		04A82CA52C3D75700073F6D1 /* ChessModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChessModel.swift; sourceTree = "<group>"; };
+		04A82CA62C3D75700073F6D1 /* ChessPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChessPiece.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0440A7162C3BDE7E006227D1 /* Frameworks */ = {
+		04A82C912C3D74E00073F6D1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -32,37 +36,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0440A7102C3BDE7E006227D1 = {
+		04A82C8B2C3D74E00073F6D1 = {
 			isa = PBXGroup;
 			children = (
-				0440A71B2C3BDE7E006227D1 /* chess */,
-				0440A71A2C3BDE7E006227D1 /* Products */,
+				04A82C962C3D74E00073F6D1 /* chess */,
+				04A82C952C3D74E00073F6D1 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		0440A71A2C3BDE7E006227D1 /* Products */ = {
+		04A82C952C3D74E00073F6D1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0440A7192C3BDE7E006227D1 /* chess.app */,
+				04A82C942C3D74E00073F6D1 /* chess.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0440A71B2C3BDE7E006227D1 /* chess */ = {
+		04A82C962C3D74E00073F6D1 /* chess */ = {
 			isa = PBXGroup;
 			children = (
-				0440A71C2C3BDE7E006227D1 /* chessApp.swift */,
-				0440A71E2C3BDE7E006227D1 /* ContentView.swift */,
-				0440A7202C3BDE7F006227D1 /* Assets.xcassets */,
-				0440A7222C3BDE7F006227D1 /* Preview Content */,
+				04A82C972C3D74E00073F6D1 /* chessApp.swift */,
+				04A82C992C3D74E00073F6D1 /* ContentView.swift */,
+				04A82CA52C3D75700073F6D1 /* ChessModel.swift */,
+				04A82CA62C3D75700073F6D1 /* ChessPiece.swift */,
+				04A82C9B2C3D74E10073F6D1 /* Assets.xcassets */,
+				04A82C9D2C3D74E10073F6D1 /* Preview Content */,
 			);
 			path = chess;
 			sourceTree = "<group>";
 		};
-		0440A7222C3BDE7F006227D1 /* Preview Content */ = {
+		04A82C9D2C3D74E10073F6D1 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				0440A7232C3BDE7F006227D1 /* Preview Assets.xcassets */,
+				04A82C9E2C3D74E10073F6D1 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -70,13 +76,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0440A7182C3BDE7E006227D1 /* chess */ = {
+		04A82C932C3D74E00073F6D1 /* chess */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0440A7272C3BDE7F006227D1 /* Build configuration list for PBXNativeTarget "chess" */;
+			buildConfigurationList = 04A82CA22C3D74E10073F6D1 /* Build configuration list for PBXNativeTarget "chess" */;
 			buildPhases = (
-				0440A7152C3BDE7E006227D1 /* Sources */,
-				0440A7162C3BDE7E006227D1 /* Frameworks */,
-				0440A7172C3BDE7E006227D1 /* Resources */,
+				04A82C902C3D74E00073F6D1 /* Sources */,
+				04A82C912C3D74E00073F6D1 /* Frameworks */,
+				04A82C922C3D74E00073F6D1 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -84,25 +90,25 @@
 			);
 			name = chess;
 			productName = chess;
-			productReference = 0440A7192C3BDE7E006227D1 /* chess.app */;
+			productReference = 04A82C942C3D74E00073F6D1 /* chess.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		0440A7112C3BDE7E006227D1 /* Project object */ = {
+		04A82C8C2C3D74E00073F6D1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
-					0440A7182C3BDE7E006227D1 = {
+					04A82C932C3D74E00073F6D1 = {
 						CreatedOnToolsVersion = 15.4;
 					};
 				};
 			};
-			buildConfigurationList = 0440A7142C3BDE7E006227D1 /* Build configuration list for PBXProject "chess" */;
+			buildConfigurationList = 04A82C8F2C3D74E00073F6D1 /* Build configuration list for PBXProject "chess" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -110,42 +116,44 @@
 				en,
 				Base,
 			);
-			mainGroup = 0440A7102C3BDE7E006227D1;
-			productRefGroup = 0440A71A2C3BDE7E006227D1 /* Products */;
+			mainGroup = 04A82C8B2C3D74E00073F6D1;
+			productRefGroup = 04A82C952C3D74E00073F6D1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0440A7182C3BDE7E006227D1 /* chess */,
+				04A82C932C3D74E00073F6D1 /* chess */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0440A7172C3BDE7E006227D1 /* Resources */ = {
+		04A82C922C3D74E00073F6D1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0440A7242C3BDE7F006227D1 /* Preview Assets.xcassets in Resources */,
-				0440A7212C3BDE7F006227D1 /* Assets.xcassets in Resources */,
+				04A82C9F2C3D74E10073F6D1 /* Preview Assets.xcassets in Resources */,
+				04A82C9C2C3D74E10073F6D1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0440A7152C3BDE7E006227D1 /* Sources */ = {
+		04A82C902C3D74E00073F6D1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0440A71F2C3BDE7E006227D1 /* ContentView.swift in Sources */,
-				0440A71D2C3BDE7E006227D1 /* chessApp.swift in Sources */,
+				04A82C9A2C3D74E00073F6D1 /* ContentView.swift in Sources */,
+				04A82CA72C3D75700073F6D1 /* ChessModel.swift in Sources */,
+				04A82C982C3D74E00073F6D1 /* chessApp.swift in Sources */,
+				04A82CA82C3D75700073F6D1 /* ChessPiece.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		0440A7252C3BDE7F006227D1 /* Debug */ = {
+		04A82CA02C3D74E10073F6D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -208,7 +216,7 @@
 			};
 			name = Debug;
 		};
-		0440A7262C3BDE7F006227D1 /* Release */ = {
+		04A82CA12C3D74E10073F6D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -264,7 +272,7 @@
 			};
 			name = Release;
 		};
-		0440A7282C3BDE7F006227D1 /* Debug */ = {
+		04A82CA32C3D74E10073F6D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -293,7 +301,7 @@
 			};
 			name = Debug;
 		};
-		0440A7292C3BDE7F006227D1 /* Release */ = {
+		04A82CA42C3D74E10073F6D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -325,25 +333,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0440A7142C3BDE7E006227D1 /* Build configuration list for PBXProject "chess" */ = {
+		04A82C8F2C3D74E00073F6D1 /* Build configuration list for PBXProject "chess" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0440A7252C3BDE7F006227D1 /* Debug */,
-				0440A7262C3BDE7F006227D1 /* Release */,
+				04A82CA02C3D74E10073F6D1 /* Debug */,
+				04A82CA12C3D74E10073F6D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0440A7272C3BDE7F006227D1 /* Build configuration list for PBXNativeTarget "chess" */ = {
+		04A82CA22C3D74E10073F6D1 /* Build configuration list for PBXNativeTarget "chess" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0440A7282C3BDE7F006227D1 /* Debug */,
-				0440A7292C3BDE7F006227D1 /* Release */,
+				04A82CA32C3D74E10073F6D1 /* Debug */,
+				04A82CA42C3D74E10073F6D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 0440A7112C3BDE7E006227D1 /* Project object */;
+	rootObject = 04A82C8C2C3D74E00073F6D1 /* Project object */;
 }
