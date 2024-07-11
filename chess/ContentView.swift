@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  chess
+//  Chess
 //
 //  Created by Yeliena Khaletska on 08.07.2024.
 //
