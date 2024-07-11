@@ -28,7 +28,13 @@ struct ChessBoardView: View {
     var body: some View {
         GeometryReader { geometry in
             let cellSize = min(geometry.size.width, geometry.size.height) / 8
+            let borderSize: CGFloat = 15
 
+            ZStack {
+                Rectangle()
+                    .strokeBorder(.brown, lineWidth: borderSize)
+                    .frame(width: min(geometry.size.width, geometry.size.height))
+                    .aspectRatio(1, contentMode: .fit)
             LazyVGrid(columns: self.columns, spacing: 0) {
                 ForEach(0..<64) { index in
                     let row = index / 8
@@ -48,8 +54,10 @@ struct ChessBoardView: View {
                     }
                 }
             }
+            .padding(borderSize)
             .frame(width: min(geometry.size.width, geometry.size.height))
             .position(x: geometry.frame(in: .local).midX, y: geometry.frame(in: .local).midY)
+            }
         }
     }
 
