@@ -13,7 +13,7 @@ struct ChessApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(chessModel: self.chessModel)
+            DeskView(chessModel: self.chessModel)
         }
     }
 }
