@@ -1,5 +1,5 @@
 //
-//  ChessModel.swift
+//  ChessGameModel.swift
 //  Chess
 //
 //  Created by Yeliena Khaletska on 08.07.2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ChessModel: ObservableObject {
+final class ChessGameModel: ObservableObject {
 
     @Published var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
     @Published var selectedPieceAddress: (row: Int, col: Int)?

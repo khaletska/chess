@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ChessGameView.swift
 //  Chess
 //
 //  Created by Yeliena Khaletska on 08.07.2024.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ChessGameView: View {
 
-    @ObservedObject var chessModel: ChessModel
+    @ObservedObject var chessModel: ChessGameModel
 
     var body: some View {
         ChessBoardView(chessModel: self.chessModel)
@@ -22,7 +22,7 @@ struct ContentView: View {
 
 struct ChessBoardView: View {
 
-    @ObservedObject var chessModel: ChessModel
+    @ObservedObject var chessModel: ChessGameModel
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 8)
 
     var body: some View {
@@ -75,24 +75,6 @@ struct ChessBoardView: View {
 
 }
 
-struct ChessPieceView: View {
-
-    private let piece: ChessPiece
-    private let imageSize: CGFloat
-
-    init(piece: ChessPiece, imageSize: CGFloat) {
-        self.piece = piece
-        self.imageSize = imageSize
-    }
-
-    var body: some View {
-        Image(piece.color.rawValue + piece.kind.rawValue)
-            .resizable()
-            .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
-    }
-
-}
-
 #Preview {
-    ContentView(chessModel: ChessModel())
+    ChessGameView(chessModel: ChessGameModel())
 }
