@@ -28,7 +28,7 @@ struct ChessBoardView: View {
     var body: some View {
         GeometryReader { geometry in
             let cellSize = min(geometry.size.width, geometry.size.height) / 8
-            let borderSize: CGFloat = 15
+            let borderSize: CGFloat = 8
 
             ZStack {
                 Rectangle()
