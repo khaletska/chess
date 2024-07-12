@@ -13,6 +13,7 @@ struct ChessGameView: View {
 
     var body: some View {
         ChessBoardView(chessViewModel: self.chessViewModel)
+            .padding()
             .onAppear {
                 self.chessViewModel.gameAppeared()
             }
