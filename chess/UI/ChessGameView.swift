@@ -1,5 +1,5 @@
 //
-//  DeskView.swift
+//  ChessGameView.swift
 //  Chess
 //
 //  Created by Yeliena Khaletska on 08.07.2024.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct DeskView: View {
+struct ChessGameView: View {
 
-    @ObservedObject var chessModel: ChessModel
+    @ObservedObject var chessModel: ChessGameModel
 
     var body: some View {
         ChessBoardView(chessModel: self.chessModel)
@@ -21,5 +21,5 @@ struct DeskView: View {
 }
 
 #Preview {
-    DeskView(chessModel: ChessModel())
+    ChessGameView(chessModel: ChessGameModel())
 }

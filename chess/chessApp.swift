@@ -9,11 +9,11 @@ import SwiftUI
 
 @main
 struct ChessApp: App {
-    @StateObject var chessModel = ChessModel()
+    @StateObject var chessModel = ChessGameModel()
 
     var body: some Scene {
         WindowGroup {
-            DeskView(chessModel: self.chessModel)
+            ChessGameView(chessModel: self.chessModel)
         }
     }
 }

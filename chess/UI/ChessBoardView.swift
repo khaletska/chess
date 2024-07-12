@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChessBoardView: View {
 
-    @ObservedObject var chessModel: ChessModel
+    @ObservedObject var chessModel: ChessGameModel
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 8)
 
     var body: some View {
