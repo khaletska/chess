@@ -7,12 +7,11 @@
 
 import Foundation
 
-final class ChessGameModel: ObservableObject {
+struct ChessGameModel {
 
-    @Published var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
-    @Published var selectedPieceAddress: (row: Int, col: Int)?
+    private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
-    func createNewGameBoard() {
+    mutating func createNewGameBoard() {
         for col in 0...7 {
             self.board[1][col] = ChessPiece(kind: .pawn, color: .black)
             self.board[6][col] = ChessPiece(kind: .pawn, color: .white)
@@ -43,19 +42,6 @@ final class ChessGameModel: ObservableObject {
         // kings
         self.board[0][4] = ChessPiece(kind: .king, color: .black)
         self.board[7][4] = ChessPiece(kind: .king, color: .white)
-    }
-
-    func selectPieceAt(row: Int, col: Int) {
-        guard let selectedPieceAddress = self.selectedPieceAddress else {
-            self.selectedPieceAddress = (row, col)
-            return
-        }
-
-        if selectedPieceAddress == (row, col) {
-            self.selectedPieceAddress = nil
-        } else {
-            self.selectedPieceAddress = (row, col)
-        }
     }
 
 }

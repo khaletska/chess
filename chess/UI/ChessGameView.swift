@@ -9,17 +9,17 @@ import SwiftUI
 
 struct ChessGameView: View {
 
-    @ObservedObject var chessModel: ChessGameModel
+    @ObservedObject var chessViewModel: ChessGameViewModel
 
     var body: some View {
-        ChessBoardView(chessModel: self.chessModel)
-            .onAppear(perform: {
-                self.chessModel.createNewGameBoard()
-            })
+        ChessBoardView(chessViewModel: self.chessViewModel)
+            .onAppear {
+                self.chessViewModel.gameAppeared()
+            }
     }
 
 }
 
 #Preview {
-    ChessGameView(chessModel: ChessGameModel())
+    ChessGameView(chessViewModel: ChessGameViewModel())
 }
