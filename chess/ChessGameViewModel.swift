@@ -9,24 +9,28 @@ import SwiftUI
 
 final class ChessGameViewModel: ObservableObject {
 
-    @Published var selectedPieceAddress: (row: Int, col: Int)?
+    @Published var selectedPieceAddress: Coordinate?
     @Published private var model = ChessGameModel()
 
     func gameAppeared() {
         self.model.createNewGameBoard()
     }
 
-    func selectPieceAt(row: Int, col: Int) {
-        guard let selectedPieceAddress = self.selectedPieceAddress else {
-            self.selectedPieceAddress = (row, col)
-            return
-        }
-
-        if selectedPieceAddress == (row, col) {
+    func cellTappedAt(row: Int, col: Int) {
+        switch (self.model.board[row][col] == nil, self.selectedPieceAddress == nil) {
+        case (true, false):
+            print("empty cell tapped and we have selected piece")
+            self.model.move(from: self.selectedPieceAddress!, to: .init(row: row, col: col))
             self.selectedPieceAddress = nil
-        }
-        else {
-            self.selectedPieceAddress = (row, col)
+        case (false, true):
+            print("non-empty cell tapped and we don't have selected piece")
+            self.selectedPieceAddress = .init(row: row, col: col)
+        case (false, false):
+            print("non-empty cell tapped and we have selected piece")
+            self.selectedPieceAddress = .init(row: row, col: col)
+        case (true, true):
+            print("empty cell tapped and we don't have selected piece")
+            return
         }
     }
 
@@ -39,7 +43,7 @@ final class ChessGameViewModel: ObservableObject {
             return .clear
         }
 
-        return selectedPieceAddress == (row, col) ? .orange : .clear
+        return selectedPieceAddress == .init(row: row, col: col) ? .orange : .clear
     }
 
     func getColorForSquare(row: Int, col: Int) -> Color {

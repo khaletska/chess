@@ -44,4 +44,17 @@ struct ChessGameModel {
         self.board[7][4] = ChessPiece(kind: .king, color: .white)
     }
 
+    mutating func move(from: Coordinate, to: Coordinate) {
+        let piece = self.board[from.row][from.col]
+        self.board[to.row][to.col] = piece
+        self.board[from.row][from.col] = nil
+    }
+
+}
+
+struct Coordinate: Equatable {
+
+    let row: Int
+    let col: Int
+
 }

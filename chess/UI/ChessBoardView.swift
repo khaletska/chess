@@ -34,10 +34,10 @@ struct ChessBoardView: View {
                             )
                             if let piece = self.chessViewModel.getPieceForCell(row: row, col: col) {
                                 ChessPieceView(piece: piece, imageSize: cellWidth * 0.9)
-                                    .onTapGesture {
-                                        self.chessViewModel.selectPieceAt(row: row, col: col)
-                                    }
                             }
+                        }
+                        .onTapGesture {
+                            self.chessViewModel.cellTappedAt(row: row, col: col)
                         }
                     }
                 }
