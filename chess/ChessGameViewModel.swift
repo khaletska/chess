@@ -13,7 +13,7 @@ final class ChessGameViewModel: ObservableObject {
     @Published private var model = ChessGameModel()
 
     func gameAppeared() {
-        self.model.createNewGameBoard()
+        self.model.createNewGameBoard(configuration: .full)
     }
 
     func cellTapped(at cellAddress: Coordinate) {
