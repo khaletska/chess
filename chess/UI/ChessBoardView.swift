@@ -26,18 +26,19 @@ struct ChessBoardView: View {
                     ForEach(0..<64) { index in
                         let row = index / 8
                         let col = index % 8
+                        let cellAddress = Coordinate(row: row, col: col)
                         ZStack {
                             ChessBoardCellView(
-                                strokeColor: self.chessViewModel.getBorderColorForSquare(row: row, col: col),
-                                cellColor: self.chessViewModel.getColorForSquare(row: row, col: col),
+                                strokeColor: self.chessViewModel.getBorderColor(for: cellAddress),
+                                cellColor: self.chessViewModel.getCellColor(for: cellAddress),
                                 cellWidth: cellWidth
                             )
-                            if let piece = self.chessViewModel.getPieceForCell(row: row, col: col) {
+                            if let piece = self.chessViewModel.getPiece(for: cellAddress) {
                                 ChessPieceView(piece: piece, imageSize: cellWidth * 0.9)
                             }
                         }
                         .onTapGesture {
-                            self.chessViewModel.cellTappedAt(row: row, col: col)
+                            self.chessViewModel.handleTap(at: cellAddress)
                         }
                     }
                 }
