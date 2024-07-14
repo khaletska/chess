@@ -38,7 +38,7 @@ struct ChessBoardView: View {
                             }
                         }
                         .onTapGesture {
-                            self.chessViewModel.handleTap(at: cellAddress)
+                            self.chessViewModel.cellTapped(at: cellAddress)
                         }
                     }
                 }

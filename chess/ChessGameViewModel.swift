@@ -16,7 +16,7 @@ final class ChessGameViewModel: ObservableObject {
         self.model.createNewGameBoard()
     }
 
-    func handleTap(at cellAddress: Coordinate) {
+    func cellTapped(at cellAddress: Coordinate) {
         switch (self.model.board[cellAddress.row][cellAddress.col] == nil, self.selectedPieceAddress == nil) {
         case (true, false):
             print("empty cell tapped and we have selected piece")
@@ -34,8 +34,8 @@ final class ChessGameViewModel: ObservableObject {
         }
     }
 
-    func getPiece(for cell: Coordinate) -> ChessPiece? {
-        self.model.board[cell.row][cell.col]
+    func getPiece(for cellAddress: Coordinate) -> ChessPiece? {
+        self.model.board[cellAddress.row][cellAddress.col]
     }
 
     func getBorderColor(for cellAddress: Coordinate) -> Color {
