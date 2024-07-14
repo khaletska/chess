@@ -11,26 +11,33 @@ final class ChessGameViewModel: ObservableObject {
 
     @Published var selectedPieceAddress: Coordinate?
     @Published private var model = ChessGameModel()
+    @Published var error: Error?
 
     func gameAppeared() {
         self.model.createNewGameBoard(configuration: .full)
     }
 
     func cellTapped(at cellAddress: Coordinate) {
-        switch (self.model.board[cellAddress.row][cellAddress.col] == nil, self.selectedPieceAddress == nil) {
-        case (true, false):
-            print("empty cell tapped and we have selected piece")
-            self.model.move(from: self.selectedPieceAddress!, to: cellAddress)
-            self.selectedPieceAddress = nil
-        case (false, true):
-            print("non-empty cell tapped and we don't have selected piece")
-            self.selectedPieceAddress = cellAddress
-        case (false, false):
-            print("non-empty cell tapped and we have selected piece")
-            self.selectedPieceAddress = cellAddress
-        case (true, true):
-            print("empty cell tapped and we don't have selected piece")
-            return
+        do {
+            switch (self.model.board[cellAddress.row][cellAddress.col] == nil, self.selectedPieceAddress == nil) {
+            case (true, false):
+                print("empty cell tapped and we have selected piece")
+                try self.model.pieceMoved(from: self.selectedPieceAddress!, to: cellAddress)
+                self.selectedPieceAddress = nil
+            case (false, true):
+                print("non-empty cell tapped and we don't have selected piece")
+                self.selectedPieceAddress = cellAddress
+            case (false, false):
+                print("non-empty cell tapped and we have selected piece")
+                self.selectedPieceAddress = cellAddress
+            case (true, true):
+                print("empty cell tapped and we don't have selected piece")
+                return
+            }
+        }
+        catch {
+            print("Error: \(error.localizedDescription)")
+            self.error = error
         }
     }
 

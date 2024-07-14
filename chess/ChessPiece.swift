@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChessPiece {
+struct ChessPiece: Equatable, CustomStringConvertible {
 
     enum Kind: String {
         case pawn = "P"
@@ -25,5 +25,22 @@ struct ChessPiece {
 
     let kind: Kind
     let color: Color
+
+    var description: String {
+        switch self.kind {
+        case .pawn:
+            return self.color == .white ? "♙" : "♟"
+        case .rook:
+            return self.color == .white ? "♖" : "♜"
+        case .knight:
+            return self.color == .white ? "♘" : "♞"
+        case .bishop:
+            return self.color == .white ? "♗" : "♝"
+        case .queen:
+            return self.color == .white ? "♕" : "♛"
+        case .king:
+            return self.color == .white ? "♔" : "♚"
+        }
+    }
 
 }
