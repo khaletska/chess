@@ -9,41 +9,45 @@ import SwiftUI
 
 final class ChessGameViewModel: ObservableObject {
 
-    @Published var selectedPieceAddress: (row: Int, col: Int)?
+    @Published var selectedPieceAddress: Coordinate?
     @Published private var model = ChessGameModel()
 
     func gameAppeared() {
         self.model.createNewGameBoard()
     }
 
-    func selectPieceAt(row: Int, col: Int) {
-        guard let selectedPieceAddress = self.selectedPieceAddress else {
-            self.selectedPieceAddress = (row, col)
+    func cellTapped(at cellAddress: Coordinate) {
+        switch (self.model.board[cellAddress.row][cellAddress.col] == nil, self.selectedPieceAddress == nil) {
+        case (true, false):
+            print("empty cell tapped and we have selected piece")
+            self.model.move(from: self.selectedPieceAddress!, to: cellAddress)
+            self.selectedPieceAddress = nil
+        case (false, true):
+            print("non-empty cell tapped and we don't have selected piece")
+            self.selectedPieceAddress = cellAddress
+        case (false, false):
+            print("non-empty cell tapped and we have selected piece")
+            self.selectedPieceAddress = cellAddress
+        case (true, true):
+            print("empty cell tapped and we don't have selected piece")
             return
         }
-
-        if selectedPieceAddress == (row, col) {
-            self.selectedPieceAddress = nil
-        }
-        else {
-            self.selectedPieceAddress = (row, col)
-        }
     }
 
-    func getPieceForCell(row: Int, col: Int) -> ChessPiece? {
-        self.model.board[row][col]
+    func getPiece(for cellAddress: Coordinate) -> ChessPiece? {
+        self.model.board[cellAddress.row][cellAddress.col]
     }
 
-    func getBorderColorForSquare(row: Int, col: Int) -> Color {
+    func getBorderColor(for cellAddress: Coordinate) -> Color {
         guard let selectedPieceAddress = self.selectedPieceAddress else {
             return .clear
         }
 
-        return selectedPieceAddress == (row, col) ? .orange : .clear
+        return selectedPieceAddress == cellAddress ? .orange : .clear
     }
 
-    func getColorForSquare(row: Int, col: Int) -> Color {
-        (row + col).isMultiple(of: 2) ? .white : .black
+    func getCellColor(for cellAddress: Coordinate) -> Color {
+        (cellAddress.row + cellAddress.col).isMultiple(of: 2) ? .white : .black
     }
 
 }
