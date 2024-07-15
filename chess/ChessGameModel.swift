@@ -23,17 +23,26 @@ struct ChessGameModel {
     }
 
     mutating func intentionToMovePiece(from source: Coordinate, to destination: Coordinate) throws {
-        guard let piece = self.board[source.row][source.col] else {
+        guard let pieceToMove = self.board[source.row][source.col] else {
             throw ChessGameModelError.missingPiece
         }
 
-        if isPawnPromotionMove(piece: piece, to: destination) {
+        let pieceToEat = self.board[destination.row][destination.col]
+        if pieceToEat != nil {
+            if pieceToEat!.color != pieceToMove.color {
+                movePiece(from: source, to: destination)
+                self.logger.log("Piece \(pieceToMove) ate \(pieceToEat!) from \(source) to \(destination)")
+                return
+            }
+        }
+
+        if isPawnPromotionMove(piece: pieceToMove, to: destination) {
             try self.promotePawn(from: source, to: destination)
-            self.logger.log("Pawn \(piece) moved from \(source) to \(destination) and promoted to \(ChessPiece(kind: .queen, color: piece.color))")
+            self.logger.log("Pawn \(pieceToMove) moved from \(source) to \(destination) and promoted to \(ChessPiece(kind: .queen, color: pieceToMove.color))")
         }
         else {
             movePiece(from: source, to: destination)
-            self.logger.log("Piece \(piece) moved from \(source) to \(destination)")
+            self.logger.log("Piece \(pieceToMove) moved from \(source) to \(destination)")
         }
     }
 
