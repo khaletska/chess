@@ -22,7 +22,7 @@ final class ChessGameViewModel: ObservableObject {
             switch (self.model.board[cellAddress.row][cellAddress.col] == nil, self.selectedPieceAddress == nil) {
             case (true, false):
                 print("empty cell tapped and we have selected piece")
-                try self.model.pieceMoved(from: self.selectedPieceAddress!, to: cellAddress)
+                try self.model.intentionToMovePiece(from: self.selectedPieceAddress!, to: cellAddress)
                 self.selectedPieceAddress = nil
             case (false, true):
                 print("non-empty cell tapped and we don't have selected piece")

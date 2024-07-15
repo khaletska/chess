@@ -22,7 +22,7 @@ struct ChessGameModel {
         self.board = configuration.generateBoard()
     }
 
-    mutating func pieceMoved(from source: Coordinate, to destination: Coordinate) throws {
+    mutating func intentionToMovePiece(from source: Coordinate, to destination: Coordinate) throws {
         guard let piece = self.board[source.row][source.col] else {
             throw ChessGameModelError.missingPiece
         }
@@ -57,8 +57,9 @@ struct ChessGameModel {
             throw ChessGameModelError.invalidPromotion
         }
 
-        self.board[destination.row][destination.col] = ChessPiece(kind: .queen, color: piece.color)
-        self.board[source.row][source.col] = nil
+        // replace an existing pawn with queen and move afterwards
+        self.board[source.row][source.col] = ChessPiece(kind: .queen, color: piece.color)
+        movePiece(from: source, to: destination)
     }
 
     // MARK: - Conditions -
