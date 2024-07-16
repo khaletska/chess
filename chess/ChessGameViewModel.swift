@@ -29,7 +29,15 @@ final class ChessGameViewModel: ObservableObject {
                 self.selectedPieceAddress = cellAddress
             case (false, false):
                 print("non-empty cell tapped and we have selected piece")
-                self.selectedPieceAddress = cellAddress
+                // if cell tapped has piece of different color, eat it
+                if self.getPiece(for: self.selectedPieceAddress!)?.color != self.getPiece(for: cellAddress)?.color {
+                    try self.model.intentionToMovePiece(from: self.selectedPieceAddress!, to: cellAddress)
+                    self.selectedPieceAddress = nil
+                }
+                // else just select different
+                else {
+                    self.selectedPieceAddress = cellAddress
+                }
             case (true, true):
                 print("empty cell tapped and we don't have selected piece")
                 return

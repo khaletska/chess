@@ -23,17 +23,34 @@ struct ChessGameModel {
     }
 
     mutating func intentionToMovePiece(from source: Coordinate, to destination: Coordinate) throws {
-        guard let piece = self.board[source.row][source.col] else {
+        guard let pieceToMove = self.board[source.row][source.col] else {
             throw ChessGameModelError.missingPiece
         }
 
-        if isPawnPromotionMove(piece: piece, to: destination) {
-            try self.promotePawn(from: source, to: destination)
-            self.logger.log("Pawn \(piece) moved from \(source) to \(destination) and promoted to \(ChessPiece(kind: .queen, color: piece.color))")
+        let pieceToEat = self.board[destination.row][destination.col]
+        if let pieceToEat, pieceToEat.color == pieceToMove.color {
+            throw ChessGameModelError.invalidMove
+        }
+
+        if isPawnPromotionMove(piece: pieceToMove, to: destination) {
+            // replace an existing pawn with queen and move afterwards
+            try promotePawn(from: source, to: destination)
+            movePiece(from: source, to: destination)
+            if let pieceToEat {
+                self.logger.log("Pawn \(pieceToMove) ate \(pieceToEat) from \(source) to \(destination) and promoted to \(ChessPiece(kind: .queen, color: pieceToMove.color))")
+            }
+            else {
+                self.logger.log("Pawn \(pieceToMove) moved from \(source) to \(destination) and promoted to \(ChessPiece(kind: .queen, color: pieceToMove.color))")
+            }
         }
         else {
             movePiece(from: source, to: destination)
-            self.logger.log("Piece \(piece) moved from \(source) to \(destination)")
+            if let pieceToEat {
+                self.logger.log("Piece \(pieceToMove) ate \(pieceToEat) from \(source) to \(destination)")
+            }
+            else {
+                self.logger.log("Piece \(pieceToMove) moved from \(source) to \(destination)")
+            }
         }
     }
 
@@ -57,9 +74,7 @@ struct ChessGameModel {
             throw ChessGameModelError.invalidPromotion
         }
 
-        // replace an existing pawn with queen and move afterwards
         self.board[source.row][source.col] = ChessPiece(kind: .queen, color: piece.color)
-        movePiece(from: source, to: destination)
     }
 
     // MARK: - Conditions -
@@ -94,11 +109,13 @@ struct Coordinate: Equatable, CustomStringConvertible {
 enum ChessGameModelError: LocalizedError {
     case missingPiece
     case invalidPromotion
+    case invalidMove
 
     var errorDescription: String? {
         switch self {
         case .missingPiece: return "There is no piece to move"
         case .invalidPromotion: return "Invalid promotion"
+        case .invalidMove: return "Invalid move"
         }
     }
 }
