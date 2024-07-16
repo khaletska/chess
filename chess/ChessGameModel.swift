@@ -28,10 +28,6 @@ struct ChessGameModel {
         }
 
         let pieceToEat = self.board[destination.row][destination.col]
-        try move(from: source, to: destination, pieceToMove: pieceToMove, pieceToEat: pieceToEat)
-    }
-
-    private mutating func move(from source: Coordinate, to destination: Coordinate, pieceToMove: ChessPiece, pieceToEat: ChessPiece? = nil) throws {
         if let pieceToEat, pieceToEat.color == pieceToMove.color {
             throw ChessGameModelError.invalidMove
         }
