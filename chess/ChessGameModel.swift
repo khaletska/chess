@@ -18,6 +18,7 @@ final class ChessGameModel: ObservableObject {
     private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8) 
     
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
+    var webSocketManager: WebSocketManager?
 
     func createNewGameBoard(configuration: BoardConfiguration) {
         self.board = configuration.generateBoard()

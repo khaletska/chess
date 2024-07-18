@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0458DF522C495311006ECA47 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458DF512C495311006ECA47 /* WebSocketManager.swift */; };
 		0499CEB32C4146E60063B68F /* ChessBoardCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499CEB22C4146E60063B68F /* ChessBoardCellView.swift */; };
 		B157A0DE2C40365600810FCC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B157A0D62C40365500810FCC /* Preview Assets.xcassets */; };
 		B157A0DF2C40365600810FCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B157A0D82C40365500810FCC /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0458DF512C495311006ECA47 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebSocketManager.swift; path = chess/WebSocketManager.swift; sourceTree = SOURCE_ROOT; };
 		0499CEB22C4146E60063B68F /* ChessBoardCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChessBoardCellView.swift; path = Chess/UI/ChessBoardCellView.swift; sourceTree = SOURCE_ROOT; };
 		04A82C942C3D74E00073F6D1 /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B157A0D62C40365500810FCC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				B157A0DB2C40365500810FCC /* ChessPiece.swift */,
 				B157A0DA2C40365500810FCC /* ChessGameModel.swift */,
 				B157A0E92C4271DD00810FCC /* BoardConfiguration.swift */,
+				0458DF512C495311006ECA47 /* WebSocketManager.swift */,
 				B157A0E42C40399800810FCC /* UI */,
 			);
 			path = Chess;
@@ -131,7 +134,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 04A82C8F2C3D74E00073F6D1 /* Build configuration list for PBXProject "Chess" */;
+			buildConfigurationList = 04A82C8F2C3D74E00073F6D1 /* Build configuration list for PBXProject "chess" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -167,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B157A0E82C4039E100810FCC /* ChessPieceView.swift in Sources */,
+				0458DF522C495311006ECA47 /* WebSocketManager.swift in Sources */,
 				B157A0EA2C4271DD00810FCC /* BoardConfiguration.swift in Sources */,
 				B157A0E12C40365600810FCC /* ChessGameModel.swift in Sources */,
 				B157A0E02C40365600810FCC /* ChessApp.swift in Sources */,
@@ -361,7 +365,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		04A82C8F2C3D74E00073F6D1 /* Build configuration list for PBXProject "Chess" */ = {
+		04A82C8F2C3D74E00073F6D1 /* Build configuration list for PBXProject "chess" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04A82CA02C3D74E10073F6D1 /* Debug */,
