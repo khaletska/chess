@@ -21,6 +21,10 @@ final class ChessGameModel: ObservableObject {
     var webSocketManager: WebSocketManager?
 
     func createNewGameBoard(configuration: BoardConfiguration) {
+        self.webSocketManager = WebSocketManager()
+        self.webSocketManager?.completion = { message in
+            print("Received message in Model: \(message)")
+        }
         self.board = configuration.generateBoard()
     }
 
