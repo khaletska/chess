@@ -8,21 +8,22 @@
 import Foundation
 import OSLog
 
-struct ChessGameModel {
+final class ChessGameModel: ObservableObject {
 
     enum GameMode {
         case full
         case pawn
     }
 
-    private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
+    private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8) 
+    
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
 
-    mutating func createNewGameBoard(configuration: BoardConfiguration) {
+    func createNewGameBoard(configuration: BoardConfiguration) {
         self.board = configuration.generateBoard()
     }
 
-    mutating func intentionToMovePiece(from source: Coordinate, to destination: Coordinate) throws {
+    func intentionToMovePiece(from source: Coordinate, to destination: Coordinate) throws {
         guard let pieceToMove = self.board[source.row][source.col] else {
             throw ChessGameModelError.missingPiece
         }
@@ -56,12 +57,12 @@ struct ChessGameModel {
 
     // MARK: - Actions -
 
-    private mutating func movePiece(from source: Coordinate, to destination: Coordinate) {
+    private func movePiece(from source: Coordinate, to destination: Coordinate) {
         self.board[destination.row][destination.col] = self.board[source.row][source.col]
         self.board[source.row][source.col] = nil
     }
 
-    private mutating func promotePawn(from source: Coordinate, to destination: Coordinate) throws {
+    private func promotePawn(from source: Coordinate, to destination: Coordinate) throws {
         guard let piece = self.board[source.row][source.col] else {
             throw ChessGameModelError.missingPiece
         }

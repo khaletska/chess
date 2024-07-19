@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import Foundation
+import Combine
 
 final class ChessGameViewModel: ObservableObject {
 
     @Published var selectedPieceAddress: Coordinate?
     @Published private var model = ChessGameModel()
     @Published var error: Error?
+    var disposables: Set<AnyCancellable> = []
 
     func gameAppeared() {
-        self.model.createNewGameBoard(configuration: .full)
+        makeNewGame()
     }
 
     func cellTapped(at cellAddress: Coordinate) {
@@ -63,6 +66,15 @@ final class ChessGameViewModel: ObservableObject {
 
     func getCellColor(for cellAddress: Coordinate) -> Color {
         (cellAddress.row + cellAddress.col).isMultiple(of: 2) ? .white : .black
+    }
+
+    private func makeNewGame() {
+        self.model.createNewGameBoard(configuration: .full)
+
+        self.$model.sink { _ in
+            self.objectWillChange.send()
+        }
+        .store(in: &disposables)
     }
 
 }
