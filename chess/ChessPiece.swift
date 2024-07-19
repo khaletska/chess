@@ -43,4 +43,15 @@ struct ChessPiece: Equatable, CustomStringConvertible {
         }
     }
 
+    var notation: String {
+        switch self.kind {
+        case .pawn: return ""
+        case .rook: return "R"
+        case .knight: return "N"
+        case .bishop: return "B"
+        case .queen: return "Q"
+        case .king: return "K"
+        }
+    }
+
 }

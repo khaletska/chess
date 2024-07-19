@@ -71,7 +71,9 @@ final class ChessGameViewModel: ObservableObject {
     private func makeNewGame() {
         self.model.createNewGameBoard(configuration: .full)
 
-        self.$model.sink { _ in
+        self.model.$board
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
             self.objectWillChange.send()
         }
         .store(in: &disposables)
