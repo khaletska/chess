@@ -8,13 +8,16 @@
 import SwiftUI
 import Foundation
 import Combine
+import OSLog
 
 final class ChessGameViewModel: ObservableObject {
 
     @Published var selectedPieceAddress: Coordinate?
-    @Published private var model = ChessGameModel()
     @Published var error: Error?
     var disposables: Set<AnyCancellable> = []
+
+    @Published private var model = ChessGameModel()
+    private let logger = Logger(subsystem: "com.khaletska.chess", category: "ViewModel")
 
     func gameAppeared() {
         makeNewGame()
@@ -24,14 +27,14 @@ final class ChessGameViewModel: ObservableObject {
         do {
             switch (self.model.board[cellAddress.row][cellAddress.col] == nil, self.selectedPieceAddress == nil) {
             case (true, false):
-                print("empty cell tapped and we have selected piece")
+                self.logger.log("empty cell tapped and we have selected piece")
                 try self.model.intentionToMovePiece(from: self.selectedPieceAddress!, to: cellAddress)
                 self.selectedPieceAddress = nil
             case (false, true):
-                print("non-empty cell tapped and we don't have selected piece")
+                self.logger.log("non-empty cell tapped and we don't have selected piece")
                 self.selectedPieceAddress = cellAddress
             case (false, false):
-                print("non-empty cell tapped and we have selected piece")
+                self.logger.log("non-empty cell tapped and we have selected piece")
                 // if cell tapped has piece of different color, eat it
                 if self.getPiece(for: self.selectedPieceAddress!)?.color != self.getPiece(for: cellAddress)?.color {
                     try self.model.intentionToMovePiece(from: self.selectedPieceAddress!, to: cellAddress)
@@ -42,12 +45,12 @@ final class ChessGameViewModel: ObservableObject {
                     self.selectedPieceAddress = cellAddress
                 }
             case (true, true):
-                print("empty cell tapped and we don't have selected piece")
+                self.logger.log("empty cell tapped and we don't have selected piece")
                 return
             }
         }
         catch {
-            print("Error: \(error.localizedDescription)")
+            self.logger.error("Error: \(error.localizedDescription)")
             self.error = error
         }
     }

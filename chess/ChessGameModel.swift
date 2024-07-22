@@ -15,11 +15,11 @@ final class ChessGameModel: ObservableObject {
         case pawn
     }
     
-    var webSocketManager: WebSocketManager?
+    private var webSocketManager: WebSocketManager?
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
-    private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
     private var player: ChessPlayer?
+    private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
 
     func createNewGameBoard(configuration: BoardConfiguration) {
         self.webSocketManager = WebSocketManager()
@@ -27,9 +27,7 @@ final class ChessGameModel: ObservableObject {
             self?.handle(message)
         }
 
-        if self.player != nil {
-            self.board = configuration.generateBoard()
-        }
+        self.board = configuration.generateBoard()
     }
 
     func intentionToMovePiece(from source: Coordinate, to destination: Coordinate) throws {
@@ -108,11 +106,11 @@ extension ChessGameModel {
     private func handle(_ message: String) {
         if self.player == nil, let color = ChessColor.init(rawValue: message) {
             self.player = ChessPlayer(color: color)
-            print("Received color: \(message)")
+            self.logger.log("Created new player with \(color.rawValue) color")
             return
         }
 
-        print("Received message in Model: \(message)")
+        self.logger.log("Received message in Model: \(message)")
         handleMove(message)
     }
 

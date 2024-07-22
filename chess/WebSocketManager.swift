@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import OSLog
 
 final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
 
     var completion: ((String) -> Void)?
     private var webSocket: URLSessionWebSocketTask?
     private var haveGameID = false
+    private let logger = Logger(subsystem: "com.khaletska.chess", category: "WebSocketManager")
 
     override init() {
         super.init()
@@ -43,7 +45,7 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
     private func ping() {
         self.webSocket?.sendPing { error in
             if let error = error {
-                print("Ping error: \(error)")
+                self.logger.error("Ping error: \(error)")
             }
         }
     }
@@ -57,7 +59,7 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
             self.send()
             self.webSocket?.send(.string("e2e4"), completionHandler: { error in
                 if let error = error {
-                    print("Send error: \(error)")
+                    self.logger.error("Send error: \(error)")
                 }
             })
         }
@@ -77,9 +79,9 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
             case .success(let message):
                 switch message {
                 case .data(let data):
-                    print("Received data: \(data)")
+                    self?.logger.log("Received data: \(data)")
                 case .string(let message):
-                    print("Received string: \(message)")
+                    self?.logger.log("Received string: \(message)")
                     self?.close()
                     self?.haveGameID = true
                     self?.setupSocketForGame(with: message)
@@ -87,7 +89,7 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
                     break
                 }
             case .failure(let error):
-                print("Receive error: \(error)")
+                self?.logger.error("Receive error: \(error)")
             }
         })
     }
@@ -98,15 +100,15 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
             case .success(let message):
                 switch message {
                 case .data(let data):
-                    print("Received data: \(data)")
+                    self?.logger.log("Received data: \(data)")
                 case .string(let message):
-                    print("Received string: \(message)")
+                    self?.logger.log("Received string: \(message)")
                     self?.completion?(message)
                 default:
                     break
                 }
             case .failure(let error):
-                print("Receive error: \(error)")
+                self?.logger.error("Receive error: \(error)")
             }
 
             self?.receiveMoves()
@@ -114,12 +116,12 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
     }
 
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
-        print("Did connect to socket.")
+        self.logger.log("Did open socket.")
         receive()
     }
 
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
-        print("Did close connection.")
+        self.logger.log("Did close connection.")
     }
 
 }
