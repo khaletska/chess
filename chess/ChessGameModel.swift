@@ -8,11 +8,6 @@
 import Foundation
 import OSLog
 
-enum ChessColor: String {
-    case black
-    case white
-}
-
 final class ChessGameModel: ObservableObject {
 
     enum GameMode {
@@ -24,14 +19,17 @@ final class ChessGameModel: ObservableObject {
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
-    private var color: ChessColor?
+    private var player: ChessPlayer?
 
     func createNewGameBoard(configuration: BoardConfiguration) {
         self.webSocketManager = WebSocketManager()
         self.webSocketManager?.completion = { [weak self] message in
             self?.handle(message)
         }
-        self.board = configuration.generateBoard()
+
+        if self.player != nil {
+            self.board = configuration.generateBoard()
+        }
     }
 
     func intentionToMovePiece(from source: Coordinate, to destination: Coordinate) throws {
@@ -108,9 +106,9 @@ final class ChessGameModel: ObservableObject {
 extension ChessGameModel {
 
     private func handle(_ message: String) {
-        if self.color == nil {
-            self.color = ChessColor.init(rawValue: message)
-            print("Received color: \(self.color!.rawValue)")
+        if self.player == nil, let color = ChessColor.init(rawValue: message) {
+            self.player = ChessPlayer(color: color)
+            print("Received color: \(message)")
             return
         }
 

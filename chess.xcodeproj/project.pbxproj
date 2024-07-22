@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0458DF522C495311006ECA47 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458DF512C495311006ECA47 /* WebSocketManager.swift */; };
 		0499CEB32C4146E60063B68F /* ChessBoardCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499CEB22C4146E60063B68F /* ChessBoardCellView.swift */; };
+		04FABEDB2C4BB73D0012EB6C /* ChessPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FABEDA2C4BB73D0012EB6C /* ChessPlayer.swift */; };
 		B157A0DE2C40365600810FCC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B157A0D62C40365500810FCC /* Preview Assets.xcassets */; };
 		B157A0DF2C40365600810FCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B157A0D82C40365500810FCC /* Assets.xcassets */; };
 		B157A0E02C40365600810FCC /* ChessApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B157A0D92C40365500810FCC /* ChessApp.swift */; };
@@ -25,6 +26,7 @@
 		0458DF512C495311006ECA47 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebSocketManager.swift; path = chess/WebSocketManager.swift; sourceTree = SOURCE_ROOT; };
 		0499CEB22C4146E60063B68F /* ChessBoardCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChessBoardCellView.swift; path = Chess/UI/ChessBoardCellView.swift; sourceTree = SOURCE_ROOT; };
 		04A82C942C3D74E00073F6D1 /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04FABEDA2C4BB73D0012EB6C /* ChessPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChessPlayer.swift; path = chess/ChessPlayer.swift; sourceTree = SOURCE_ROOT; };
 		B157A0D62C40365500810FCC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B157A0D82C40365500810FCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B157A0D92C40365500810FCC /* ChessApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChessApp.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				B157A0ED2C42724A00810FCC /* ChessGameViewModel.swift */,
 				B157A0DB2C40365500810FCC /* ChessPiece.swift */,
 				B157A0DA2C40365500810FCC /* ChessGameModel.swift */,
+				04FABEDA2C4BB73D0012EB6C /* ChessPlayer.swift */,
 				B157A0E92C4271DD00810FCC /* BoardConfiguration.swift */,
 				0458DF512C495311006ECA47 /* WebSocketManager.swift */,
 				B157A0E42C40399800810FCC /* UI */,
@@ -174,6 +177,7 @@
 				B157A0EA2C4271DD00810FCC /* BoardConfiguration.swift in Sources */,
 				B157A0E12C40365600810FCC /* ChessGameModel.swift in Sources */,
 				B157A0E02C40365600810FCC /* ChessApp.swift in Sources */,
+				04FABEDB2C4BB73D0012EB6C /* ChessPlayer.swift in Sources */,
 				0499CEB32C4146E60063B68F /* ChessBoardCellView.swift in Sources */,
 				B157A0E32C40365600810FCC /* ChessGameView.swift in Sources */,
 				B157A0EE2C42724A00810FCC /* ChessGameViewModel.swift in Sources */,
