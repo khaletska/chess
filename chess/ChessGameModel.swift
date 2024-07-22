@@ -14,12 +14,19 @@ final class ChessGameModel: ObservableObject {
         case full
         case pawn
     }
-
-    private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8) 
     
+    private var webSocketManager: WebSocketManager?
+    @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
+
+    private var player: ChessPlayer?
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
 
     func createNewGameBoard(configuration: BoardConfiguration) {
+        self.webSocketManager = WebSocketManager()
+        self.webSocketManager?.completion = { [weak self] message in
+            self?.handle(message)
+        }
+
         self.board = configuration.generateBoard()
     }
 
@@ -92,6 +99,51 @@ final class ChessGameModel: ObservableObject {
         return true
     }
 
+}
+
+extension ChessGameModel {
+
+    private func handle(_ message: String) {
+        if self.player == nil, let color = ChessColor.init(rawValue: message) {
+            self.player = ChessPlayer(color: color)
+            self.logger.log("Created new player with \(color.rawValue) color")
+            return
+        }
+
+        self.logger.log("Received message in Model: \(message)")
+        handleMove(message)
+    }
+
+    private func handleMove(_ message: String) {
+        let parts = parseNotation(message)
+
+        let source = Coordinate(row: 8 - Int(String(parts[2]))!, col: Int(parts[1].first!.asciiValue!) - 97)
+        let destination = Coordinate(row: 8 - Int(String(parts[5]))!, col: Int(parts[4].first!.asciiValue!) - 97)
+        movePiece(from: source, to: destination)
+    }
+
+    private func parseNotation(_ s: String) -> [String] {
+        let pgnRegex = try! NSRegularExpression(pattern: "^(?:([RNBQKP]?)([abcdefgh]?)(\\d?)(x?)([abcdefgh])(\\d)(=[QRBN])?|(O-O(?:-O)?))([+#!?]|e\\.p\\.)*$", options: [])
+        let nsrange = NSRange(s.startIndex..<s.endIndex, in: s)
+        guard let match = pgnRegex.firstMatch(in: s, options: [], range: nsrange) else {
+            return []
+        }
+
+        var parts = [String]()
+        for i in 1..<match.numberOfRanges {
+            if let range = Range(match.range(at: i), in: s) {
+                parts.append(String(s[range]))
+            } else {
+                parts.append("")
+            }
+        }
+
+        while parts.count < 8 {
+            parts.append("")
+        }
+
+        return parts
+    }
 }
 
 struct Coordinate: Equatable, CustomStringConvertible {
