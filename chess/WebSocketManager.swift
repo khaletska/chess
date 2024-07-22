@@ -8,7 +8,14 @@
 import Foundation
 import OSLog
 
-final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
+protocol NetworkClient {
+
+    var completion: ((String) -> Void)? { get set }
+    init()
+
+}
+
+final class WebSocketManager: NSObject, URLSessionWebSocketDelegate, NetworkClient {
 
     var completion: ((String) -> Void)?
     private var webSocket: URLSessionWebSocketTask?

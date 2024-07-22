@@ -15,15 +15,15 @@ final class ChessGameModel: ObservableObject {
         case pawn
     }
     
-    private var webSocketManager: WebSocketManager?
+    private var networkClient: NetworkClient?
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
     private var player: ChessPlayer?
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
 
     func createNewGameBoard(configuration: BoardConfiguration) {
-        self.webSocketManager = WebSocketManager()
-        self.webSocketManager?.completion = { [weak self] message in
+        self.networkClient = WebSocketManager()
+        self.networkClient?.completion = { [weak self] message in
             self?.handle(message)
         }
 
