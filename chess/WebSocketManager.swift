@@ -7,18 +7,16 @@
 
 import Foundation
 import OSLog
+import Combine
 
-protocol NetworkClient {
+final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
 
-    var completion: ((String) -> Void)? { get set }
-    init()
+    var messages: AnyPublisher<String, Never>! {
+        self.subject.eraseToAnyPublisher()
+    }
 
-}
-
-final class WebSocketManager: NSObject, URLSessionWebSocketDelegate, NetworkClient {
-
-    var completion: ((String) -> Void)?
     private var webSocket: URLSessionWebSocketTask?
+    private let subject: PassthroughSubject<String, Never> = .init()
     private var haveGameID = false
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "WebSocketManager")
 
@@ -110,7 +108,7 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate, NetworkClie
                     self?.logger.log("Received data: \(data)")
                 case .string(let message):
                     self?.logger.log("Received string: \(message)")
-                    self?.completion?(message)
+                    self?.subject.send(message)
                 default:
                     break
                 }
