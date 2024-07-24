@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import OSLog
 
 final class ChessGameModel: ObservableObject {
@@ -20,12 +21,14 @@ final class ChessGameModel: ObservableObject {
 
     private var player: ChessPlayer?
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
+    private var cancellable: AnyCancellable?
 
     func createNewGameBoard(configuration: BoardConfiguration) {
         self.webSocketManager = WebSocketManager()
-        self.webSocketManager?.completion = { [weak self] message in
-            self?.handle(message)
-        }
+        self.cancellable = self.webSocketManager?.messages
+            .sink { [weak self] message in
+                self?.handle(message)
+            }
 
         self.board = configuration.generateBoard()
     }
