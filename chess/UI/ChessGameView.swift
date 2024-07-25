@@ -13,6 +13,9 @@ struct ChessGameView: View {
 
     var body: some View {
         VStack {
+            Text("Status will be here")
+                .font(.title3)
+                .padding()
             ChessBoardView(chessViewModel: self.chessViewModel)
                 .padding()
                 .onAppear {

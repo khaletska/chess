@@ -25,9 +25,9 @@ final class ChessGameModel: ObservableObject {
 
     func createNewGameBoard(configuration: BoardConfiguration) {
         self.webSocketManager = WebSocketManager()
-        self.cancellable = self.webSocketManager?.messages
-            .sink { [weak self] message in
-                self?.handle(message)
+        self.cancellable = self.webSocketManager?.status
+            .sink { [weak self] (message: WebSocketManager.Status) in
+                self?.logger.log("Received status from websocket: \(message)")
             }
 
         self.board = configuration.generateBoard()
