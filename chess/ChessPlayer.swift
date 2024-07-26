@@ -7,17 +7,13 @@
 
 import Foundation
 
-enum ChessColor: String {
-    case black
-    case white
-}
 
 final class ChessPlayer {
 
-    let color: ChessColor
+    let color: ChessPiece.Color
     var isMyTurn: Bool
 
-    init(color: ChessColor, isMyTurn: Bool) {
+    init(color: ChessPiece.Color, isMyTurn: Bool) {
         self.color = color
         self.isMyTurn = isMyTurn
     }

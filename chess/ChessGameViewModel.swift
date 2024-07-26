@@ -72,8 +72,12 @@ final class ChessGameViewModel: ObservableObject {
         (cellAddress.row + cellAddress.col).isMultiple(of: 2) ? .white : .black
     }
 
+    func getPlayerColor() -> ChessPiece.Color {
+        self.model.player?.color ?? .white
+    }
+
     private func makeNewGame() {
-        self.model.createNewGameBoard(configuration: .full)
+        self.model.setup()
 
         self.model.$board
             .receive(on: DispatchQueue.main)
