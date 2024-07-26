@@ -20,6 +20,7 @@ final class ChessGameModel: ObservableObject {
     private(set) var player: ChessPlayer?
     @Published private(set) var gameStatus: String = ""
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
+    private var previousBoardState: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
     private var cancellable: AnyCancellable?
@@ -44,6 +45,8 @@ final class ChessGameModel: ObservableObject {
             throw ChessGameModelError.invalidMove
         }
 
+        // remember board state before move
+        self.previousBoardState = board
         if isPawnPromotionMove(piece: pieceToMove, to: destination) {
             // replace an existing pawn with queen and move afterwards
             try promotePawn(from: source, to: destination)
@@ -134,6 +137,14 @@ extension ChessGameModel {
     }
 
     private func handle(_ message: String) {
+        guard isValidLAN(message) || isValidColor(message) else {
+            self.logger.error("Received invalid message in Model: \(message)")
+            self.gameStatus = "Invalid move"
+            self.board = previousBoardState
+            self.player?.isMyTurn.toggle()
+            return
+        }
+
         if self.player == nil, let color = ChessPiece.Color(rawValue: message) {
             let player = ChessPlayer(color: color, isMyTurn: color == .black ? false : true)
             self.board = BoardConfiguration.full.generateBoard()
@@ -201,6 +212,20 @@ extension ChessGameModel {
         }
 
         return parts
+    }
+
+    // Validate LAN
+    private func isValidLAN(_ notation: String) -> Bool {
+        let lanRegex = "^(?:([RNBQKP]?)([abcdefgh]?)(\\d?)(x?)([abcdefgh])(\\d)(=[QRBN])?|(O-O(?:-O)?))([+#!?]|e\\.p\\.)*$"
+        let lanPredicate = NSPredicate(format: "SELF MATCHES %@", lanRegex)
+        return lanPredicate.evaluate(with: notation)
+    }
+
+    // Validate Color
+    private func isValidColor(_ message: String) -> Bool {
+        let colorRegex = "^(white|black)$"
+        let colorPredicate = NSPredicate(format: "SELF MATCHES %@", colorRegex)
+        return colorPredicate.evaluate(with: message)
     }
 
 }

@@ -22,9 +22,6 @@ struct ChessGameView: View {
                     self.chessViewModel.gameAppeared()
                 }
                 .errorAlert(error: self.$chessViewModel.error)
-            Button("New Game") {
-                self.chessViewModel.gameAppeared()
-            }
         }
     }
 
