@@ -20,6 +20,7 @@ final class ChessGameModel: ObservableObject {
     private(set) var player: ChessPlayer?
     @Published private(set) var gameStatus: String = ""
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
+    private var previousBoardState: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
     private var cancellable: AnyCancellable?
@@ -44,6 +45,8 @@ final class ChessGameModel: ObservableObject {
             throw ChessGameModelError.invalidMove
         }
 
+        // remember board state before move
+        self.previousBoardState = board
         if isPawnPromotionMove(piece: pieceToMove, to: destination) {
             // replace an existing pawn with queen and move afterwards
             try promotePawn(from: source, to: destination)
@@ -134,6 +137,14 @@ extension ChessGameModel {
     }
 
     private func handle(_ message: String) {
+        guard isValidNotation(message) || isValidColor(message) else {
+            self.logger.error("Received invalid message: \(message)")
+            self.gameStatus = "Invalid move"
+            self.board = previousBoardState
+            self.player?.isMyTurn.toggle()
+            return
+        }
+
         if self.player == nil, let color = ChessPiece.Color(rawValue: message) {
             let player = ChessPlayer(color: color, isMyTurn: color == .black ? false : true)
             self.board = BoardConfiguration.full.generateBoard()
@@ -142,7 +153,7 @@ extension ChessGameModel {
             self.logger.log("Created new player with \(color.rawValue) color")
             return
         }
-        self.logger.log("Received message in Model: \(message)")
+        self.logger.log("Received message: \(message)")
         handleMove(message)
         self.player?.isMyTurn.toggle()
         updateTurnStatus()
@@ -201,6 +212,16 @@ extension ChessGameModel {
         }
 
         return parts
+    }
+
+    private func isValidNotation(_ notation: String) -> Bool {
+        let lanRegex = "^(?:([RNBQKP]?)([abcdefgh]?)(\\d?)(x?)([abcdefgh])(\\d)(=[QRBN])?|(O-O(?:-O)?))([+#!?]|e\\.p\\.)*$"
+        let lanPredicate = NSPredicate(format: "SELF MATCHES %@", lanRegex)
+        return lanPredicate.evaluate(with: notation)
+    }
+
+    private func isValidColor(_ message: String) -> Bool {
+        return message == "white" || message == "black"
     }
 
 }
