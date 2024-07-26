@@ -15,8 +15,9 @@ final class ChessGameModel: ObservableObject {
         case full
         case pawn
     }
-    
+
     private var webSocketManager: WebSocketManager?
+    @Published private(set) var gameStatus: String = ""
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
     private var player: ChessPlayer?
@@ -26,8 +27,10 @@ final class ChessGameModel: ObservableObject {
     func createNewGameBoard(configuration: BoardConfiguration) {
         self.webSocketManager = WebSocketManager()
         self.cancellable = self.webSocketManager?.status
-            .sink { [weak self] (message: WebSocketManager.Status) in
-                self?.logger.log("Received status from websocket: \(message)")
+            .sink { [weak self] (status: WebSocketManager.Status) in
+                guard let self else { return }
+                handleStatusChange(status)
+                self.logger.log("Received status from websocket: \(status)")
             }
 
         self.board = configuration.generateBoard()
@@ -106,15 +109,46 @@ final class ChessGameModel: ObservableObject {
 
 extension ChessGameModel {
 
+    private func handleStatusChange(_ status: WebSocketManager.Status) {
+        switch status {
+        case .message(let message):
+            handle(message)
+        case .connectingToPool:
+            self.gameStatus = "Connecting…"
+        case .connectingToGame:
+            self.gameStatus = "Connecting…"
+        case .waitingForPlayers:
+            self.gameStatus = "Waiting for opponent to join…"
+        case .makingRoom:
+            self.gameStatus = "Starting a game…"
+        case .noConnection:
+            self.gameStatus = "Connected"
+        case .closed:
+            if self.player != nil {
+                self.gameStatus = "Connection lost"
+            }
+        }
+    }
+
     private func handle(_ message: String) {
         if self.player == nil, let color = ChessColor.init(rawValue: message) {
-            self.player = ChessPlayer(color: color)
+            self.player = ChessPlayer(color: color, isMyTurn: color == .black ? false : true)
+            updateTurnStatus()
             self.logger.log("Created new player with \(color.rawValue) color")
             return
         }
-
         self.logger.log("Received message in Model: \(message)")
         handleMove(message)
+        self.player?.isMyTurn.toggle()
+        updateTurnStatus()
+    }
+
+    private func updateTurnStatus() {
+        if self.player?.isMyTurn == true {
+            self.gameStatus = "Your turn to make a move…"
+        } else {
+            self.gameStatus = "Waiting for opponent to make a move…"
+        }
     }
 
     private func handleMove(_ message: String) {

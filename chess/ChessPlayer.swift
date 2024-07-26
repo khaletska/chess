@@ -15,9 +15,11 @@ enum ChessColor: String {
 final class ChessPlayer {
 
     let color: ChessColor
+    var isMyTurn: Bool
 
-    init(color: ChessColor) {
+    init(color: ChessColor, isMyTurn: Bool) {
         self.color = color
+        self.isMyTurn = isMyTurn
     }
 
 }
