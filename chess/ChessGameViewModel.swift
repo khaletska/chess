@@ -14,6 +14,7 @@ final class ChessGameViewModel: ObservableObject {
 
     @Published var selectedPieceAddress: Coordinate?
     @Published var error: Error?
+    @Published var gameStatus: String?
     var disposables: Set<AnyCancellable> = []
 
     @Published private var model = ChessGameModel()
@@ -77,9 +78,17 @@ final class ChessGameViewModel: ObservableObject {
         self.model.$board
             .receive(on: DispatchQueue.main)
             .sink { _ in
-            self.objectWillChange.send()
-        }
-        .store(in: &disposables)
+                self.objectWillChange.send()
+            }
+            .store(in: &disposables)
+
+
+        self.model.$gameStatus
+            .receive(on: DispatchQueue.main)
+            .sink { status in
+                self.gameStatus = status
+            }
+            .store(in: &disposables)
     }
 
 }

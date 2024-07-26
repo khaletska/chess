@@ -11,13 +11,42 @@ import Combine
 
 final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
 
-    var messages: AnyPublisher<String, Never>! {
+    enum Status: CustomStringConvertible {
+        var description: String {
+            switch self {
+            case .noConnection:
+                return "No connection"
+            case .connectingToPool:
+                return "Connecting to pool…"
+            case .waitingForPlayers:
+                return "Waiting for players…"
+            case .connectingToGame:
+                return "Connecting to game…"
+            case .makingRoom:
+                return "Creating room…"
+            case .message(let message):
+                return "Message: \(message)"
+            case .closed:
+                return "Connection closed."
+            }
+        }
+
+        case noConnection
+        case connectingToPool
+        case waitingForPlayers
+        case connectingToGame
+        case makingRoom
+        case message(String)
+        case closed
+    }
+
+    var status: AnyPublisher<Status, Never>! {
         self.subject.eraseToAnyPublisher()
     }
 
     private var webSocket: URLSessionWebSocketTask?
-    private let subject: PassthroughSubject<String, Never> = .init()
     private var haveGameID = false
+    private let subject: CurrentValueSubject<Status, Never> = .init(.noConnection)
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "WebSocketManager")
 
     override init() {
@@ -33,6 +62,7 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
         )
         let roomsURL = URL(string: "ws://localhost:8080/rooms")
         self.webSocket = session.webSocketTask(with: roomsURL!)
+        self.subject.send(.connectingToPool)
         self.webSocket?.resume()
     }
 
@@ -44,6 +74,7 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
         )
         let gameURL = URL(string: "ws://localhost:8080/rooms/\(id)")
         self.webSocket = session.webSocketTask(with: gameURL!)
+        self.subject.send(.connectingToGame)
         self.webSocket?.resume()
     }
 
@@ -70,63 +101,61 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
         }
     }
 
-    private func receive() {
-        if !haveGameID {
-            receiveGameID()
-        } else {
-            receiveMoves()
-        }
-    }
-
     private func receiveGameID() {
         self.webSocket?.receive(completionHandler: { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let message):
                 switch message {
                 case .data(let data):
-                    self?.logger.log("Received data: \(data)")
+                    self.logger.log("Received data: \(data)")
                 case .string(let message):
-                    self?.logger.log("Received string: \(message)")
-                    self?.close()
-                    self?.haveGameID = true
-                    self?.setupSocketForGame(with: message)
+                    self.subject.send(.makingRoom)
+                    self.close()
+                    self.haveGameID = true
+                    self.setupSocketForGame(with: message)
                 default:
                     break
                 }
             case .failure(let error):
-                self?.logger.error("Receive error: \(error)")
+                self.logger.error("Receive error: \(error)")
             }
         })
     }
 
     private func receiveMoves() {
         self.webSocket?.receive(completionHandler: { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let message):
                 switch message {
                 case .data(let data):
-                    self?.logger.log("Received data: \(data)")
+                    self.logger.log("Received data: \(data)")
                 case .string(let message):
-                    self?.logger.log("Received string: \(message)")
-                    self?.subject.send(message)
+                    self.subject.send(.message(message))
                 default:
                     break
                 }
             case .failure(let error):
-                self?.logger.error("Receive error: \(error)")
+                self.logger.error("Receive error: \(error)")
             }
 
-            self?.receiveMoves()
+            self.receiveMoves()
         })
     }
 
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
-        self.logger.log("Did open socket.")
-        receive()
+        if !self.haveGameID {
+            self.subject.send(.waitingForPlayers)
+            receiveGameID()
+        }
+        else {
+            receiveMoves()
+        }
     }
 
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
-        self.logger.log("Did close connection.")
+        self.subject.send(.closed)
     }
 
 }
