@@ -25,17 +25,28 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func cellTapped(at cellAddress: Coordinate) {
+        guard self.model.player?.isMyTurn == true else {
+            self.logger.log("Cell tapped: it's not my turn")
+            return
+        }
+
         do {
             switch (self.model.board[cellAddress.row][cellAddress.col] == nil, self.selectedPieceAddress == nil) {
             case (true, false):
-                self.logger.log("empty cell tapped and we have selected piece")
+                self.logger.log("Cell tapped: empty cell tapped and we have selected piece")
                 try self.model.intentionToMovePiece(from: self.selectedPieceAddress!, to: cellAddress)
                 self.selectedPieceAddress = nil
             case (false, true):
-                self.logger.log("non-empty cell tapped and we don't have selected piece")
-                self.selectedPieceAddress = cellAddress
+                self.logger.log("Cell tapped: non-empty cell tapped and we don't have selected piece")
+                let piece = self.getPiece(for: cellAddress)!
+                if piece.color == self.getPlayerColor() {
+                    self.selectedPieceAddress = cellAddress
+                }
+                else {
+                    return
+                }
             case (false, false):
-                self.logger.log("non-empty cell tapped and we have selected piece")
+                self.logger.log("Cell tapped: non-empty cell tapped and we have selected piece")
                 // if cell tapped has piece of different color, eat it
                 if self.getPiece(for: self.selectedPieceAddress!)?.color != self.getPiece(for: cellAddress)?.color {
                     try self.model.intentionToMovePiece(from: self.selectedPieceAddress!, to: cellAddress)
@@ -46,7 +57,7 @@ final class ChessGameViewModel: ObservableObject {
                     self.selectedPieceAddress = cellAddress
                 }
             case (true, true):
-                self.logger.log("empty cell tapped and we don't have selected piece")
+                self.logger.log("Cell tapped: empty cell tapped and we don't have selected piece")
                 return
             }
         }
