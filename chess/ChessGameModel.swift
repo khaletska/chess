@@ -137,8 +137,8 @@ extension ChessGameModel {
     }
 
     private func handle(_ message: String) {
-        guard isValidLAN(message) || isValidColor(message) else {
-            self.logger.error("Received invalid message in Model: \(message)")
+        guard isValidNotation(message) || isValidColor(message) else {
+            self.logger.error("Received invalid message: \(message)")
             self.gameStatus = "Invalid move"
             self.board = previousBoardState
             self.player?.isMyTurn.toggle()
@@ -153,7 +153,7 @@ extension ChessGameModel {
             self.logger.log("Created new player with \(color.rawValue) color")
             return
         }
-        self.logger.log("Received message in Model: \(message)")
+        self.logger.log("Received message: \(message)")
         handleMove(message)
         self.player?.isMyTurn.toggle()
         updateTurnStatus()
@@ -214,18 +214,14 @@ extension ChessGameModel {
         return parts
     }
 
-    // Validate LAN
-    private func isValidLAN(_ notation: String) -> Bool {
+    private func isValidNotation(_ notation: String) -> Bool {
         let lanRegex = "^(?:([RNBQKP]?)([abcdefgh]?)(\\d?)(x?)([abcdefgh])(\\d)(=[QRBN])?|(O-O(?:-O)?))([+#!?]|e\\.p\\.)*$"
         let lanPredicate = NSPredicate(format: "SELF MATCHES %@", lanRegex)
         return lanPredicate.evaluate(with: notation)
     }
 
-    // Validate Color
     private func isValidColor(_ message: String) -> Bool {
-        let colorRegex = "^(white|black)$"
-        let colorPredicate = NSPredicate(format: "SELF MATCHES %@", colorRegex)
-        return colorPredicate.evaluate(with: message)
+        return message == "white" || message == "black"
     }
 
 }
