@@ -25,7 +25,7 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func cellTapped(at cellAddress: Coordinate) {
-        guard let isMyTurn = self.model.player?.isMyTurn, isMyTurn else {
+        guard self.model.player?.isMyTurn == true else {
             self.logger.log("Cell tapped: it's not my turn")
             return
         }

@@ -55,6 +55,7 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
     }
 
     private func setupSocket() {
+        //        ensure that previous is closed in case we have one
         close()
         let session = URLSession(
             configuration: .default,
@@ -68,6 +69,7 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
     }
 
     private func setupSocketForGame(with id: String) {
+        //        ensure that previous is closed in case we have one
         close()
         let session = URLSession(
             configuration: .default,
@@ -95,11 +97,11 @@ final class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
 
     func send(_ message: String) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            self.webSocket?.send(.string(message), completionHandler: { error in
+            self.webSocket?.send(.string(message)) { error in
                 if let error = error {
                     self.logger.error("Send error: \(error)")
                 }
-            })
+            }
         }
     }
 

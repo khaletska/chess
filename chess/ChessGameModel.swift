@@ -63,7 +63,9 @@ final class ChessGameModel: ObservableObject {
                 self.logger.log("Piece \(pieceToMove) moved from \(source) to \(destination)")
             }
         }
-        self.webSocketManager?.send(convertMoveToNotation(from: source, to: destination, isTake: pieceToEat != nil))
+        let isTakeMove = pieceToEat != nil
+        let notation = convertCoordinatesToNotation(from: source, to: destination, isTake: isTakeMove)
+        self.webSocketManager?.send(notation)
         movePiece(from: source, to: destination)
         self.player?.isMyTurn.toggle()
         updateTurnStatus()
@@ -155,7 +157,7 @@ extension ChessGameModel {
     }
 
     private func handleMove(_ message: String) {
-        let (source, destination) = convertToMove(message)
+        let (source, destination) = convertNotationToCoordinates(message)
         movePiece(from: source, to: destination)
     }
 
@@ -163,12 +165,12 @@ extension ChessGameModel {
 
 extension ChessGameModel {
 
-    private func convertMoveToNotation(from source: Coordinate, to destination: Coordinate, isTake: Bool) -> String {
+    private func convertCoordinatesToNotation(from source: Coordinate, to destination: Coordinate, isTake: Bool) -> String {
         guard let piece = self.board[source.row][source.col] else { return "" }
         return "\(piece.notation)\(source.description)\(isTake ? "x" : "")\(destination.description)"
     }
 
-    private func convertToMove(_ notation: String) -> (Coordinate, Coordinate) {
+    private func convertNotationToCoordinates(_ notation: String) -> (Coordinate, Coordinate) {
         let parts = parseNotation(notation)
 
         let source = Coordinate(row: 8 - Int(String(parts[2]))!, col: Int(parts[1].first!.asciiValue!) - 97)
