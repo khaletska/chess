@@ -33,38 +33,23 @@ enum BoardConfiguration {
 
     private func generateFullBoard() -> [[ChessPiece?]] {
         var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
+
+        // Place pawns
         for col in 0...7 {
             board[1][col] = ChessPiece(kind: .pawn, color: .black)
             board[6][col] = ChessPiece(kind: .pawn, color: .white)
         }
 
-        // rooks
-        board[0][0] = ChessPiece(kind: .rook, color: .black)
-        board[0][7] = ChessPiece(kind: .rook, color: .black)
-        board[7][0] = ChessPiece(kind: .rook, color: .white)
-        board[7][7] = ChessPiece(kind: .rook, color: .white)
+        let pieceOrder: [ChessPiece.Kind] = [.rook, .knight, .bishop, .queen, .king, .bishop, .knight, .rook]
 
-        // knights
-        board[0][1] = ChessPiece(kind: .knight, color: .black)
-        board[0][6] = ChessPiece(kind: .knight, color: .black)
-        board[7][1] = ChessPiece(kind: .knight, color: .white)
-        board[7][6] = ChessPiece(kind: .knight, color: .white)
-
-        // bishops
-        board[0][2] = ChessPiece(kind: .bishop, color: .black)
-        board[0][5] = ChessPiece(kind: .bishop, color: .black)
-        board[7][2] = ChessPiece(kind: .bishop, color: .white)
-        board[7][5] = ChessPiece(kind: .bishop, color: .white)
-
-        // queens
-        board[0][3] = ChessPiece(kind: .queen, color: .black)
-        board[7][3] = ChessPiece(kind: .queen, color: .white)
-
-        // kings
-        board[0][4] = ChessPiece(kind: .king, color: .black)
-        board[7][4] = ChessPiece(kind: .king, color: .white)
+        // Place other pieces
+        for col in 0...7 {
+            board[0][col] = ChessPiece(kind: pieceOrder[col], color: .black)
+            board[7][col] = ChessPiece(kind: pieceOrder[col], color: .white)
+        }
 
         return board
     }
+
 
 }

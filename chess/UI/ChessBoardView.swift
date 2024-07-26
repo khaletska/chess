@@ -35,6 +35,7 @@ struct ChessBoardView: View {
                             )
                             if let piece = self.chessViewModel.getPiece(for: cellAddress) {
                                 ChessPieceView(piece: piece, imageSize: cellWidth * 0.9)
+                                    .rotationEffect(self.chessViewModel.getPlayerColor() == .black ? .degrees(180) : .degrees(0))
                             }
                         }
                         .onTapGesture {
@@ -47,6 +48,7 @@ struct ChessBoardView: View {
                 .position(x: geometry.frame(in: .local).midX, y: geometry.frame(in: .local).midY)
             }
         }
+        .rotationEffect(self.chessViewModel.getPlayerColor() == .black ? .degrees(180) : .degrees(0))
     }
 
 }

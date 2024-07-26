@@ -17,14 +17,14 @@ final class ChessGameModel: ObservableObject {
     }
 
     private var webSocketManager: WebSocketManager?
+    private(set) var player: ChessPlayer?
     @Published private(set) var gameStatus: String = ""
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
 
-    private var player: ChessPlayer?
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "GameModel")
     private var cancellable: AnyCancellable?
 
-    func createNewGameBoard(configuration: BoardConfiguration) {
+    func setup() {
         self.webSocketManager = WebSocketManager()
         self.cancellable = self.webSocketManager?.status
             .sink { [weak self] (status: WebSocketManager.Status) in
@@ -32,8 +32,6 @@ final class ChessGameModel: ObservableObject {
                 handleStatusChange(status)
                 self.logger.log("Received status from websocket: \(status)")
             }
-
-        self.board = configuration.generateBoard()
     }
 
     func intentionToMovePiece(from source: Coordinate, to destination: Coordinate) throws {
@@ -131,8 +129,10 @@ extension ChessGameModel {
     }
 
     private func handle(_ message: String) {
-        if self.player == nil, let color = ChessColor.init(rawValue: message) {
-            self.player = ChessPlayer(color: color, isMyTurn: color == .black ? false : true)
+        if self.player == nil, let color = ChessPiece.Color(rawValue: message) {
+            let player = ChessPlayer(color: color, isMyTurn: color == .black ? false : true)
+            self.board = BoardConfiguration.full.generateBoard()
+            self.player = player
             updateTurnStatus()
             self.logger.log("Created new player with \(color.rawValue) color")
             return

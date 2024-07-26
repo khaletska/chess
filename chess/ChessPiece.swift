@@ -19,8 +19,17 @@ struct ChessPiece: Equatable, CustomStringConvertible {
     }
 
     enum Color: String {
-        case white = "W"
-        case black = "B"
+        case white
+        case black
+
+        var shorthand: String {
+            switch self {
+            case .white:
+                return "W"
+            case .black:
+                return "B"
+            }
+        }
     }
 
     let kind: Kind

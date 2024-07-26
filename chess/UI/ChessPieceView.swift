@@ -20,7 +20,7 @@ struct ChessPieceView: View {
     }
 
     var body: some View {
-        Image(piece.color.rawValue + piece.kind.rawValue)
+        Image(piece.color.shorthand + piece.kind.rawValue)
             .resizable()
             .frame(width: self.imageSize, height: self.imageSize, alignment: .center)
     }
