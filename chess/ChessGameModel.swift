@@ -47,7 +47,7 @@ final class ChessGameModel: ObservableObject {
         if isPawnPromotionMove(piece: pieceToMove, to: destination) {
             // replace an existing pawn with queen and move afterwards
             try promotePawn(from: source, to: destination)
-            movePiece(from: source, to: destination)
+
             if let pieceToEat {
                 self.logger.log("Pawn \(pieceToMove) ate \(pieceToEat) from \(source) to \(destination) and promoted to \(ChessPiece(kind: .queen, color: pieceToMove.color))")
             }
@@ -56,7 +56,6 @@ final class ChessGameModel: ObservableObject {
             }
         }
         else {
-            movePiece(from: source, to: destination)
             if let pieceToEat {
                 self.logger.log("Piece \(pieceToMove) ate \(pieceToEat) from \(source) to \(destination)")
             }
@@ -64,6 +63,10 @@ final class ChessGameModel: ObservableObject {
                 self.logger.log("Piece \(pieceToMove) moved from \(source) to \(destination)")
             }
         }
+        self.webSocketManager?.send(convertMoveToNotation(from: source, to: destination, isTake: pieceToEat != nil))
+        movePiece(from: source, to: destination)
+        self.player?.isMyTurn.toggle()
+        updateTurnStatus()
     }
 
     // MARK: - Actions -
@@ -152,14 +155,30 @@ extension ChessGameModel {
     }
 
     private func handleMove(_ message: String) {
-        let parts = parseNotation(message)
-
-        let source = Coordinate(row: 8 - Int(String(parts[2]))!, col: Int(parts[1].first!.asciiValue!) - 97)
-        let destination = Coordinate(row: 8 - Int(String(parts[5]))!, col: Int(parts[4].first!.asciiValue!) - 97)
+        let (source, destination) = convertToMove(message)
         movePiece(from: source, to: destination)
     }
 
+}
+
+extension ChessGameModel {
+
+    private func convertMoveToNotation(from source: Coordinate, to destination: Coordinate, isTake: Bool) -> String {
+        guard let piece = self.board[source.row][source.col] else { return "" }
+        return "\(piece.notation)\(source.description)\(isTake ? "x" : "")\(destination.description)"
+    }
+
+    private func convertToMove(_ notation: String) -> (Coordinate, Coordinate) {
+        let parts = parseNotation(notation)
+
+        let source = Coordinate(row: 8 - Int(String(parts[2]))!, col: Int(parts[1].first!.asciiValue!) - 97)
+        let destination = Coordinate(row: 8 - Int(String(parts[5]))!, col: Int(parts[4].first!.asciiValue!) - 97)
+
+        return (source, destination)
+    }
+
     private func parseNotation(_ s: String) -> [String] {
+//        Parsed components: piece, fromRow, fromCol, capture, toRow, toCol, promotes, castles
         let pgnRegex = try! NSRegularExpression(pattern: "^(?:([RNBQKP]?)([abcdefgh]?)(\\d?)(x?)([abcdefgh])(\\d)(=[QRBN])?|(O-O(?:-O)?))([+#!?]|e\\.p\\.)*$", options: [])
         let nsrange = NSRange(s.startIndex..<s.endIndex, in: s)
         guard let match = pgnRegex.firstMatch(in: s, options: [], range: nsrange) else {
@@ -181,6 +200,7 @@ extension ChessGameModel {
 
         return parts
     }
+
 }
 
 struct Coordinate: Equatable, CustomStringConvertible {
