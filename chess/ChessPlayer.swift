@@ -11,7 +11,6 @@ import Foundation
 final class ChessPlayer {
 
     let color: ChessPiece.Color
-    var isUnderCheckmate = false
 
     init(color: ChessPiece.Color) {
         self.color = color

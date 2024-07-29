@@ -13,7 +13,7 @@ struct ChessGameView: View {
 
     var body: some View {
         VStack {
-            Text(self.chessViewModel.gameStatus ?? "")
+            Text(self.chessViewModel.gameStatus)
                 .font(.title3)
                 .padding()
             ChessBoardView(chessViewModel: self.chessViewModel)

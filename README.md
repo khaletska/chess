@@ -5,6 +5,10 @@
 ## Table of contents
 
 - [General information](#general-information)
+- [Technologies](#technologies)
+- [Backend](#backend)
+- [Setup](#setup)
+- [Authors](#authors)
 
 ## General Information
 
@@ -31,3 +35,6 @@ Make sure that you have [backend](#backend) up and running.
 4. Choose different devices for opened projects (e.g. iPhone 15 and iPhone 14)
 5. Run both projects, enjoy playing ☺️
 
+## Authors
+
+[Elena Khaletska](https://github.com/khaletska) with a great guidance of [Andrius Shiaulis](https://github.com/Shiaulis)
