@@ -26,7 +26,7 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func cellTapped(at cellAddress: Coordinate) {
-        guard self.model.player.color == self.currentTurnColor else {
+        guard self.model.player?.color == self.currentTurnColor else {
             self.logger.log("Cell tapped: it's not my turn")
             return
         }
@@ -86,7 +86,7 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func getPlayerColor() -> ChessPiece.Color {
-        self.model.player.color
+        self.model.player?.color ?? .white
     }
 
     private func isOppositePlayerKing(at cellAddress: Coordinate) -> Bool {

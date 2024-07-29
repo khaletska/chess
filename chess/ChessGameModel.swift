@@ -16,8 +16,8 @@ final class ChessGameModel: ObservableObject {
         case pawn
     }
 
-    private var webSocketManager: WebSocketManager!
-    private(set) var player: ChessPlayer!
+    private var webSocketManager: WebSocketManager?
+    private(set) var player: ChessPlayer?
     @Published private(set) var currentTurnColor: ChessPiece.Color = .white
     @Published private(set) var gameStatus: String = ""
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
@@ -28,7 +28,7 @@ final class ChessGameModel: ObservableObject {
 
     func setup() {
         self.webSocketManager = WebSocketManager()
-        self.cancellable = self.webSocketManager.status
+        self.cancellable = self.webSocketManager?.status
             .sink { [weak self] (status: WebSocketManager.Status) in
                 guard let self else { return }
                 handleStatusChange(status)
@@ -69,7 +69,7 @@ final class ChessGameModel: ObservableObject {
         }
         let isTakeMove = pieceToEat != nil
         let notation = convertCoordinatesToNotation(from: source, to: destination, isTake: isTakeMove)
-        self.webSocketManager.send(notation)
+        self.webSocketManager?.send(notation)
         movePiece(from: source, to: destination)
         self.currentTurnColor.toggle()
         updateTurnStatus()
@@ -175,7 +175,7 @@ extension ChessGameModel {
     }
 
     private func updateTurnStatus() {
-        if self.player.color == self.currentTurnColor {
+        if self.player?.color == self.currentTurnColor {
             self.gameStatus = "Your turn to make a move…"
         }
         else {
@@ -213,8 +213,9 @@ extension ChessGameModel {
             else if message.starts(with: "chess: ") {
                 self = .invalidMove
             }
-
-            return nil
+            else {
+                return nil
+            }
         }
 
         static private func isValidNotation(_ notation: String) -> Bool {
