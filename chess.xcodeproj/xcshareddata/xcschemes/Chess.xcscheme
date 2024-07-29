@@ -18,7 +18,7 @@
                BlueprintIdentifier = "04A82C932C3D74E00073F6D1"
                BuildableName = "Chess.app"
                BlueprintName = "Chess"
-               ReferencedContainer = "container:Chess.xcodeproj">
+               ReferencedContainer = "container:chess.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,7 +47,7 @@
             BlueprintIdentifier = "04A82C932C3D74E00073F6D1"
             BuildableName = "Chess.app"
             BlueprintName = "Chess"
-            ReferencedContainer = "container:Chess.xcodeproj">
+            ReferencedContainer = "container:chess.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -64,7 +64,7 @@
             BlueprintIdentifier = "04A82C932C3D74E00073F6D1"
             BuildableName = "Chess.app"
             BlueprintName = "Chess"
-            ReferencedContainer = "container:Chess.xcodeproj">
+            ReferencedContainer = "container:chess.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

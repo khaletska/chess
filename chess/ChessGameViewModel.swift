@@ -17,6 +17,7 @@ final class ChessGameViewModel: ObservableObject {
     @Published var gameStatus: String?
     var disposables: Set<AnyCancellable> = []
 
+    @Published private(set) var whoseTurn: ChessPiece.Color?
     @Published private var model = ChessGameModel()
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "ViewModel")
 
@@ -25,7 +26,7 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func cellTapped(at cellAddress: Coordinate) {
-        guard self.model.player?.isMyTurn == true else {
+        guard self.model.player?.color == self.whoseTurn else {
             self.logger.log("Cell tapped: it's not my turn")
             return
         }
@@ -72,10 +73,13 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func getBorderColor(for cellAddress: Coordinate) -> Color {
-        guard let selectedPieceAddress = self.selectedPieceAddress else {
-            return .clear
+        if gameStatus?.starts(with: "Checkmate") == true {
+            if let piece = self.getPiece(for: cellAddress), piece.kind == .king, piece.color != self.whoseTurn {
+                return .red
+            }
         }
 
+        let selectedPieceAddress = self.selectedPieceAddress
         return selectedPieceAddress == cellAddress ? .orange : .clear
     }
 
@@ -97,11 +101,17 @@ final class ChessGameViewModel: ObservableObject {
             }
             .store(in: &disposables)
 
-
         self.model.$gameStatus
             .receive(on: DispatchQueue.main)
             .sink { status in
                 self.gameStatus = status
+            }
+            .store(in: &disposables)
+
+        self.model.$whoseTurn
+            .receive(on: DispatchQueue.main)
+            .sink { whoseTurn in
+                self.whoseTurn = whoseTurn
             }
             .store(in: &disposables)
     }

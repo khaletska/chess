@@ -11,11 +11,10 @@ import Foundation
 final class ChessPlayer {
 
     let color: ChessPiece.Color
-    var isMyTurn: Bool
+    var isUnderCheckmate = false
 
-    init(color: ChessPiece.Color, isMyTurn: Bool) {
+    init(color: ChessPiece.Color) {
         self.color = color
-        self.isMyTurn = isMyTurn
     }
 
 }
