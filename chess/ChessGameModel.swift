@@ -224,7 +224,7 @@ extension ChessGameModel {
         }
 
         static private func isValidColor(_ message: String) -> Bool {
-            return message == "white" || message == "black"
+            message == "white" || message == "black"
         }
     }
 

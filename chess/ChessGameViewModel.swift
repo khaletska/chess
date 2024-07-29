@@ -73,10 +73,8 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func getBorderColor(for cellAddress: Coordinate) -> Color {
-        if self.gameStatus.starts(with: "Checkmate") {
-            if let piece = self.getPiece(for: cellAddress), piece.kind == .king, piece.color != self.currentTurnColor {
-                return .red
-            }
+        if self.gameStatus.starts(with: "Checkmate"), isOppositePlayerKing(at: cellAddress) {
+            return .red
         }
 
         let selectedPieceAddress = self.selectedPieceAddress
@@ -91,29 +89,34 @@ final class ChessGameViewModel: ObservableObject {
         self.model.player.color
     }
 
+    private func isOppositePlayerKing(at cellAddress: Coordinate) -> Bool {
+        guard let piece = self.getPiece(for: cellAddress) else { return false }
+        return piece.kind == .king && piece.color != self.currentTurnColor
+    }
+
     private func makeNewGame() {
         self.model.setup()
 
         self.model.$board
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.objectWillChange.send()
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
             }
-            .store(in: &disposables)
+            .store(in: &self.disposables)
 
         self.model.$gameStatus
             .receive(on: DispatchQueue.main)
-            .sink { status in
-                self.gameStatus = status
+            .sink { [weak self] status in
+                self?.gameStatus = status
             }
-            .store(in: &disposables)
+            .store(in: &self.disposables)
 
         self.model.$currentTurnColor
             .receive(on: DispatchQueue.main)
-            .sink { currentTurnColor in
-                self.currentTurnColor = currentTurnColor
+            .sink { [weak self] currentTurnColor in
+                self?.currentTurnColor = currentTurnColor
             }
-            .store(in: &disposables)
+            .store(in: &self.disposables)
     }
 
 }
