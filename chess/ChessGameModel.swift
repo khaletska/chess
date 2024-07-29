@@ -16,8 +16,9 @@ final class ChessGameModel: ObservableObject {
         case pawn
     }
 
-    private var webSocketManager: WebSocketManager?
-    private(set) var player: ChessPlayer?
+    private var webSocketManager: WebSocketManager!
+    private(set) var player: ChessPlayer!
+    @Published private(set) var currentTurnColor: ChessPiece.Color = .white
     @Published private(set) var gameStatus: String = ""
     @Published private(set) var board: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
     private var previousBoardState: [[ChessPiece?]] = .init(repeating: .init(repeating: nil, count: 8), count: 8)
@@ -27,7 +28,7 @@ final class ChessGameModel: ObservableObject {
 
     func setup() {
         self.webSocketManager = WebSocketManager()
-        self.cancellable = self.webSocketManager?.status
+        self.cancellable = self.webSocketManager.status
             .sink { [weak self] (status: WebSocketManager.Status) in
                 guard let self else { return }
                 handleStatusChange(status)
@@ -68,10 +69,17 @@ final class ChessGameModel: ObservableObject {
         }
         let isTakeMove = pieceToEat != nil
         let notation = convertCoordinatesToNotation(from: source, to: destination, isTake: isTakeMove)
-        self.webSocketManager?.send(notation)
+        self.webSocketManager.send(notation)
         movePiece(from: source, to: destination)
-        self.player?.isMyTurn.toggle()
+        self.currentTurnColor.toggle()
         updateTurnStatus()
+    }
+
+    private func setupPlayer(with color: ChessPiece.Color) {
+        self.player = ChessPlayer(color: color)
+        self.board = BoardConfiguration.full.generateBoard()
+        updateTurnStatus()
+        self.logger.log("Created new player with \(color.rawValue) color")
     }
 
     // MARK: - Actions -
@@ -137,32 +145,40 @@ extension ChessGameModel {
     }
 
     private func handle(_ message: String) {
-        guard isValidNotation(message) || isValidColor(message) else {
-            self.logger.error("Received invalid message: \(message)")
-            self.gameStatus = "Invalid move"
-            self.board = previousBoardState
-            self.player?.isMyTurn.toggle()
+        let messageKind = MessageKind(message)
+
+        if self.player == nil, messageKind == .color, let color = ChessPiece.Color(rawValue: message) {
+            setupPlayer(with: color)
             return
         }
 
-        if self.player == nil, let color = ChessPiece.Color(rawValue: message) {
-            let player = ChessPlayer(color: color, isMyTurn: color == .black ? false : true)
-            self.board = BoardConfiguration.full.generateBoard()
-            self.player = player
+        switch messageKind {
+        case .move:
+            self.logger.log("Received move message: \(message)")
+            handleMove(message)
+            self.currentTurnColor.toggle()
             updateTurnStatus()
-            self.logger.log("Created new player with \(color.rawValue) color")
-            return
+        case .checkmate:
+            self.logger.log("Received checkmate: \(message)")
+            self.gameStatus = "Checkmate. Game ended"
+            self.currentTurnColor.toggle()
+        case .invalidMove:
+            self.logger.error("Received invalid message: \(message)")
+            self.gameStatus = "Invalid move"
+            self.board = self.previousBoardState
+            self.currentTurnColor.toggle()
+        case .color:
+            assertionFailure("This shouldn't be called because this case was handled before")
+        case .none:
+            break
         }
-        self.logger.log("Received message: \(message)")
-        handleMove(message)
-        self.player?.isMyTurn.toggle()
-        updateTurnStatus()
     }
 
     private func updateTurnStatus() {
-        if self.player?.isMyTurn == true {
+        if self.player.color == self.currentTurnColor {
             self.gameStatus = "Your turn to make a move…"
-        } else {
+        }
+        else {
             self.gameStatus = "Waiting for opponent to make a move…"
         }
     }
@@ -174,7 +190,43 @@ extension ChessGameModel {
 
 }
 
+// MARK: - Helpers -
+
 extension ChessGameModel {
+
+    enum MessageKind {
+        case move
+        case color
+        case checkmate
+        case invalidMove
+
+        init?(_ message: String) {
+            if Self.isValidNotation(message) {
+                self = .move
+            }
+            else if Self.isValidColor(message) {
+                self = .color
+            }
+            else if message == "Checkmate" {
+                self = .checkmate
+            }
+            else if message.starts(with: "chess: ") {
+                self = .invalidMove
+            }
+
+            return nil
+        }
+
+        static private func isValidNotation(_ notation: String) -> Bool {
+            let lanRegex = "^(?:([RNBQKP]?)([abcdefgh]?)(\\d?)(x?)([abcdefgh])(\\d)(=[QRBN])?|(O-O(?:-O)?))([+#!?]|e\\.p\\.)*$"
+            let lanPredicate = NSPredicate(format: "SELF MATCHES %@", lanRegex)
+            return lanPredicate.evaluate(with: notation)
+        }
+
+        static private func isValidColor(_ message: String) -> Bool {
+            message == "white" || message == "black"
+        }
+    }
 
     private func convertCoordinatesToNotation(from source: Coordinate, to destination: Coordinate, isTake: Bool) -> String {
         guard let piece = self.board[source.row][source.col] else { return "" }
@@ -191,7 +243,7 @@ extension ChessGameModel {
     }
 
     private func parseNotation(_ s: String) -> [String] {
-//        Parsed components: piece, fromRow, fromCol, capture, toRow, toCol, promotes, castles
+//        Components: piece, fromRow, fromCol, capture, toRow, toCol, promotes, castles
         let pgnRegex = try! NSRegularExpression(pattern: "^(?:([RNBQKP]?)([abcdefgh]?)(\\d?)(x?)([abcdefgh])(\\d)(=[QRBN])?|(O-O(?:-O)?))([+#!?]|e\\.p\\.)*$", options: [])
         let nsrange = NSRange(s.startIndex..<s.endIndex, in: s)
         guard let match = pgnRegex.firstMatch(in: s, options: [], range: nsrange) else {
@@ -202,7 +254,8 @@ extension ChessGameModel {
         for i in 1..<match.numberOfRanges {
             if let range = Range(match.range(at: i), in: s) {
                 parts.append(String(s[range]))
-            } else {
+            }
+            else {
                 parts.append("")
             }
         }
@@ -212,16 +265,6 @@ extension ChessGameModel {
         }
 
         return parts
-    }
-
-    private func isValidNotation(_ notation: String) -> Bool {
-        let lanRegex = "^(?:([RNBQKP]?)([abcdefgh]?)(\\d?)(x?)([abcdefgh])(\\d)(=[QRBN])?|(O-O(?:-O)?))([+#!?]|e\\.p\\.)*$"
-        let lanPredicate = NSPredicate(format: "SELF MATCHES %@", lanRegex)
-        return lanPredicate.evaluate(with: notation)
-    }
-
-    private func isValidColor(_ message: String) -> Bool {
-        return message == "white" || message == "black"
     }
 
 }
@@ -251,4 +294,17 @@ enum ChessGameModelError: LocalizedError {
         case .invalidMove: return "Invalid move"
         }
     }
+}
+
+extension ChessPiece.Color {
+
+    mutating func toggle() {
+        switch self {
+        case .black: 
+            self = .white
+        case .white: 
+            self = .black
+        }
+    }
+
 }

@@ -14,9 +14,10 @@ final class ChessGameViewModel: ObservableObject {
 
     @Published var selectedPieceAddress: Coordinate?
     @Published var error: Error?
-    @Published var gameStatus: String?
+    @Published var gameStatus = ""
     var disposables: Set<AnyCancellable> = []
 
+    @Published private(set) var currentTurnColor: ChessPiece.Color?
     @Published private var model = ChessGameModel()
     private let logger = Logger(subsystem: "com.khaletska.chess", category: "ViewModel")
 
@@ -25,7 +26,7 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func cellTapped(at cellAddress: Coordinate) {
-        guard self.model.player?.isMyTurn == true else {
+        guard self.model.player.color == self.currentTurnColor else {
             self.logger.log("Cell tapped: it's not my turn")
             return
         }
@@ -39,7 +40,7 @@ final class ChessGameViewModel: ObservableObject {
             case (false, true):
                 self.logger.log("Cell tapped: non-empty cell tapped and we don't have selected piece")
                 let piece = self.getPiece(for: cellAddress)!
-                if piece.color == self.getPlayerColor() {
+                if piece.color == getPlayerColor() {
                     self.selectedPieceAddress = cellAddress
                 }
                 else {
@@ -72,10 +73,11 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func getBorderColor(for cellAddress: Coordinate) -> Color {
-        guard let selectedPieceAddress = self.selectedPieceAddress else {
-            return .clear
+        if self.gameStatus.starts(with: "Checkmate"), isOppositePlayerKing(at: cellAddress) {
+            return .red
         }
 
+        let selectedPieceAddress = self.selectedPieceAddress
         return selectedPieceAddress == cellAddress ? .orange : .clear
     }
 
@@ -84,7 +86,12 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func getPlayerColor() -> ChessPiece.Color {
-        self.model.player?.color ?? .white
+        self.model.player.color
+    }
+
+    private func isOppositePlayerKing(at cellAddress: Coordinate) -> Bool {
+        guard let piece = self.getPiece(for: cellAddress) else { return false }
+        return piece.kind == .king && piece.color != self.currentTurnColor
     }
 
     private func makeNewGame() {
@@ -92,18 +99,24 @@ final class ChessGameViewModel: ObservableObject {
 
         self.model.$board
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.objectWillChange.send()
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
             }
-            .store(in: &disposables)
-
+            .store(in: &self.disposables)
 
         self.model.$gameStatus
             .receive(on: DispatchQueue.main)
-            .sink { status in
-                self.gameStatus = status
+            .sink { [weak self] status in
+                self?.gameStatus = status
             }
-            .store(in: &disposables)
+            .store(in: &self.disposables)
+
+        self.model.$currentTurnColor
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] currentTurnColor in
+                self?.currentTurnColor = currentTurnColor
+            }
+            .store(in: &self.disposables)
     }
 
 }
