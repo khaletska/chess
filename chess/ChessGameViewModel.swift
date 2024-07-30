@@ -86,7 +86,11 @@ final class ChessGameViewModel: ObservableObject {
     }
 
     func getPlayerColor() -> ChessPiece.Color {
-        self.model.player.color
+        guard let player = self.model.player else {
+            return .white
+        }
+
+        return player.color
     }
 
     private func isOppositePlayerKing(at cellAddress: Coordinate) -> Bool {

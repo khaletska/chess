@@ -213,8 +213,9 @@ extension ChessGameModel {
             else if message.starts(with: "chess: ") {
                 self = .invalidMove
             }
-
-            return nil
+            else {
+                return nil
+            }
         }
 
         static private func isValidNotation(_ notation: String) -> Bool {
